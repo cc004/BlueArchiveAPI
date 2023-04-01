@@ -115,8 +115,9 @@ public class AccountCurrencyDB
     public Dictionary<CurrencyTypes, DateTime> UpdateTimeDict;
 }
 
-public class CharacterDB
+public class CharacterDB : ParcelBase
 {
+    public ParcelType Type;
     public long ServerId;
     public long UniqueId;
     public int StarGrade;
@@ -489,7 +490,7 @@ public enum Protocol
     Error = -1,
 }
 
-public class ResponsePacket
+public class ResponsePacket : BasePacket
 {
     public long ServerTimeTicks;
     public ServerNotificationFlag ServerNotification;
@@ -498,19 +499,22 @@ public class ResponsePacket
     public Dictionary<OpenConditionContent, OpenConditionLockReason> StaticOpenConditions;
 }
 
-public class EquipmentItemListResponse
+public class EquipmentItemListResponse : ResponsePacket
 {
+    public Protocol Protocol;
     public List<EquipmentDB> EquipmentDBs;
 }
 
-public class CraftInfoListResponse
+public class CraftInfoListResponse : ResponsePacket
 {
+    public Protocol Protocol;
     public List<CraftInfoDB> CraftInfos;
     public List<ShiftingCraftInfoDB> ShiftingCraftInfos;
 }
 
-public class WeaponDB
+public class WeaponDB : ParcelBase
 {
+    public ParcelType Type;
     public long UniqueId;
     public int Level;
     public long Exp;
@@ -542,7 +546,6 @@ public class ParcelResultDB
     public List<ParcelResultStepInfo> ParcelResultStepInfoList;
     public long BaseAccountExp;
     public long AdditionalAccountExp;
-    public List<long> GachaResultCharacters;
 }
 
 public class ConsumeRequestDB
@@ -556,8 +559,9 @@ public class ConsumeResultDB
     public Dictionary<long, long> UsedServerIdAndRemainingCounts;
 }
 
-public class ItemDB
+public class ItemDB : ConsumableItemBaseDB
 {
+    public ParcelType Type;
     public bool IsNew;
     public bool IsLocked;
 }
@@ -571,8 +575,9 @@ public class EquipmentBatchGrowthRequestDB
     public long AfterExp;
 }
 
-public class EquipmentDB
+public class EquipmentDB : ConsumableItemBaseDB
 {
+    public ParcelType Type;
     public int Level;
     public long Exp;
     public int Tier;
@@ -611,6 +616,7 @@ public class EchelonPresetGroupDB
     public int GroupIndex;
     public string GroupLabel;
     public Dictionary<int, EchelonPresetDB> PresetDBs;
+    public EchelonPresetDB Item;
 }
 
 public class EchelonPresetDB
@@ -648,6 +654,7 @@ public class CampaignStageHistoryDB
     public long TodayPurchasePlayCountHardStage;
     public DateTime? FirstClearRewardReceive;
     public DateTime? StarRewardReceive;
+    public long TodayPlayCountForUI;
 }
 
 public class StrategyObjectHistoryDB
@@ -662,8 +669,9 @@ public class DailyResetCountDB
     public Dictionary<ResetContentType, long> ResetCount;
 }
 
-public class CampaignMainStageSaveDB
+public class CampaignMainStageSaveDB : ContentSaveDB
 {
+    public ContentType ContentType;
     public CampaignState CampaignState;
     public int CurrentTurn;
     public int EnemyClearCount;
@@ -688,7 +696,6 @@ public class HexaUnit
     public Dictionary<long, long> HpInfos;
     public Dictionary<long, long> DyingInfos;
     public Dictionary<long, int> BuffInfos;
-    public SkillCardHand SkillCardHand;
     public int ActionCountMax;
     public int ActionCount;
     public int Mobility;
@@ -703,8 +710,9 @@ public class HexaUnit
     public int MovementOrder;
     public int MaxTSSCount;
     public int RemainTSSCount;
-    public bool PlayAnimation;
     public Dictionary<TacticEntityType, List<ParcelInfo>> RewardParcelInfosWithDropTacticEntityType;
+    public SkillCardHand SkillCardHand;
+    public bool PlayAnimation;
 }
 
 public struct HexLocation
@@ -743,8 +751,6 @@ public class BattleSummary
     public ArenaSummary ArenaSummary;
     public int ContinueCount;
     public float ElapsedRealtime;
-    public long EventContentId;
-    public long FixedEchelonId;
 }
 
 public class SkillCardHand
@@ -768,12 +774,14 @@ public enum StageDifficulty
     VeryHard = 3,
 }
 
-public class CampaignSubStageSaveDB
+public class CampaignSubStageSaveDB : ContentSaveDB
 {
+    public ContentType ContentType;
 }
 
-public class CampaignTutorialStageSaveDB
+public class CampaignTutorialStageSaveDB : ContentSaveDB
 {
+    public ContentType ContentType;
 }
 
 public class MailDB
@@ -795,8 +803,6 @@ public class MailDB
 
 public class MissionHistoryDB
 {
-    public long ServerId;
-    public long AccountServerId;
     public long MissionUniqueId;
     public DateTime CompleteTime;
     public bool Expired;
@@ -804,8 +810,6 @@ public class MissionHistoryDB
 
 public class MissionProgressDB
 {
-    public long ServerId;
-    public long AccountServerId;
     public long MissionUniqueId;
     public bool Complete;
     public DateTime StartTime;
@@ -955,12 +959,12 @@ public class ParcelCost
     public List<EquipmentDB> EquipmentDBs;
     public List<ItemDB> ItemDBs;
     public List<FurnitureDB> FurnitureDBs;
-    public List<ConsumableItemBaseDB> _consumableItemBaseDBs;
     public ConsumeCondition ConsumeCondition;
 }
 
-public class MemoryLobbyDB
+public class MemoryLobbyDB : ParcelBase
 {
+    public ParcelType Type;
     public long AccountServerId;
     public long MemoryLobbyUniqueId;
 }
@@ -1041,6 +1045,8 @@ public class ConquestTileDB
     public TileState TileState;
     public long Level;
     public Boolean[] StarFlags;
+    public bool IsThreeStarClear;
+    public bool IsAnyStarClear;
 }
 
 public class WorldRaidLocalBossDB
@@ -1125,7 +1131,7 @@ public class RaidBattleDB
     public List<long> SubPartsHPs;
 }
 
-public class AssistCharacterDB
+public class AssistCharacterDB : CharacterDB
 {
     public EchelonType EchelonType;
     public int SlotNumber;
@@ -1137,17 +1143,6 @@ public class AssistCharacterDB
     public WeaponDB WeaponDB;
     public GearDB GearDB;
     public bool IsMulligan;
-}
-
-public struct DebuffDescription
-{
-    public long AccountId;
-    public string LogicEffectTemplateId;
-    public string LogicEffectGroupId;
-    public int LogicEffectLevel;
-    public int DurationFrame;
-    public SkillSlot SkillSlot;
-    public int IssuedTimestamp;
 }
 
 public enum RaidSeasonType
@@ -1241,8 +1236,9 @@ public class ScenarioGroupHistoryDB
     public bool IsReturn;
 }
 
-public class StoryStrategyStageSaveDB
+public class StoryStrategyStageSaveDB : CampaignMainStageSaveDB
 {
+    public ContentType ContentType;
 }
 
 public class CafeDB
@@ -1340,6 +1336,7 @@ public class ArenaUserDB
     public long Level;
     public long Exp;
     public ArenaTeamSettingDB TeamSettingDB;
+    public string UserName;
 }
 
 public class ArenaBattleDB
@@ -1404,6 +1401,7 @@ public class EventRewardIncreaseDB
 
 public class ContentSaveDB
 {
+    public ContentType ContentType;
     public long AccountServerId;
     public DateTime CreateTime;
     public long StageUniqueId;
@@ -1589,6 +1587,7 @@ public class MonthlyProductPurchaseDB
     public DateTime PurchaseDate;
     public DateTime? LastDailyRewardDate;
     public DateTime? RewardEndDate;
+    public ProductTagType ProductTagType;
 }
 
 public class PurchaseOrderDB
@@ -1601,6 +1600,7 @@ public class PurchaseOrderDB
 public class BlockedProductDB
 {
     public long CashProductId;
+    public ShopCashBlockType MarketBlockType;
     public DateTime BeginDate;
     public DateTime EndDate;
 }
@@ -1612,8 +1612,9 @@ public class EventContentBonusRewardDB
     public ParcelInfo BonusParcelInfo;
 }
 
-public class EventContentMainStageSaveDB
+public class EventContentMainStageSaveDB : CampaignMainStageSaveDB
 {
+    public ContentType ContentType;
     public Dictionary<long, long> SelectedBuffDict;
     public long CurrentAppearedBuffGroupId;
 }
@@ -1626,12 +1627,14 @@ public class EventContentCollectionDB
     public DateTime ReceiveDate;
 }
 
-public class EventContentSubStageSaveDB
+public class EventContentSubStageSaveDB : CampaignSubStageSaveDB
 {
+    public ContentType ContentType;
 }
 
-public class EventContentMainGroundStageSaveDB
+public class EventContentMainGroundStageSaveDB : CampaignSubStageSaveDB
 {
+    public ContentType ContentType;
 }
 
 public class EventContentBoxGachaDB
@@ -1659,6 +1662,7 @@ public class CardShopElementDB
     public long EventContentId;
     public int SlotNumber;
     public long CardShopElementId;
+    public bool SoldOut;
 }
 
 public class CardShopPurchaseHistoryDB
@@ -1678,8 +1682,9 @@ public class EventContentLocationDB
     public Dictionary<long, List<VisitingCharacterDB>> ZoneVisitCharacterDBs;
 }
 
-public class EventContentStoryStageSaveDB
+public class EventContentStoryStageSaveDB : CampaignSubStageSaveDB
 {
+    public ContentType ContentType;
 }
 
 public class EventContentDiceRaceDB
@@ -1730,7 +1735,10 @@ public class ClearDeckDB
     public bool Star1Flag;
     public bool Star2Flag;
     public bool Star3Flag;
+    public int StarCount;
     public List<ClearDeckEchelonDB> ClearDeckEchelonDBs;
+    public int TotalCharacterCount;
+    public int TotalCharacterLevelSum;
 }
 
 public class MiniGameHistoryDB
@@ -1790,8 +1798,9 @@ public class WorldRaidClearHistoryDB
     public DateTime RewardReceiveDate;
 }
 
-public class WorldRaidBossGroup
+public class WorldRaidBossGroup : ContentsValueChangeDB
 {
+    public ContentsChangeType ContentsChangeType;
     public long GroupId;
     public DateTime BossSpawnTime;
     public DateTime EliminateTime;
@@ -1831,6 +1840,7 @@ public class ConquestEventObjectDB
     public StageDifficulty Difficulty;
     public long TileUniqueId;
     public long ObjectId;
+    public ConquestEventObjectType ObjectType;
     public bool IsAlive;
 }
 
@@ -1851,8 +1861,9 @@ public class ConquestDisplayInfo
     public long TileUniqueId;
 }
 
-public class ConquestStageSaveDB
+public class ConquestStageSaveDB : ContentSaveDB
 {
+    public ContentType ContentType;
     public Int64? ConquestEventObjectDBId;
     public long EventContentId;
     public StageDifficulty Difficulty;
@@ -1882,8 +1893,9 @@ public class FriendIdCardDB
     public Int32? RaidTier;
 }
 
-public class IdCardBackgroundDB
+public class IdCardBackgroundDB : ParcelBase
 {
+    public ParcelType Type;
     public long ServerId;
     public long UniqueId;
 }
@@ -1912,8 +1924,9 @@ public enum FriendSearchLevelOption
     Level91To100 = 9,
 }
 
-public class GearDB
+public class GearDB : ParcelBase
 {
+    public ParcelType Type;
     public long ServerId;
     public long UniqueId;
     public int Level;
@@ -2050,7 +2063,6 @@ public struct ParcelKeyPair
 
 public struct BasisPoint
 {
-    public long rawValue;
 }
 
 public enum CurrencyTypes
@@ -2078,6 +2090,43 @@ public enum CurrencyTypes
     WorldRaidTicketB = 20,
     WorldRaidTicketC = 21,
     Max = 22,
+}
+
+public class ParcelBase
+{
+    public ParcelType Type;
+}
+
+public enum ParcelType
+{
+    None = 0,
+    Character = 1,
+    Currency = 2,
+    Equipment = 3,
+    Item = 4,
+    GachaGroup = 5,
+    Product = 6,
+    Shop = 7,
+    MemoryLobby = 8,
+    AccountExp = 9,
+    CharacterExp = 10,
+    FavorExp = 11,
+    TSS = 12,
+    Furniture = 13,
+    ShopRefresh = 14,
+    LocationExp = 15,
+    Recipe = 16,
+    CharacterWeapon = 17,
+    ProductMonthly = 18,
+    CharacterGear = 19,
+    IdCardBackground = 20,
+}
+
+public class BasePacket
+{
+    public Protocol Protocol;
+    public SessionKey SessionKey;
+    public long AccountId;
 }
 
 public enum ServerNotificationFlag
@@ -2108,8 +2157,9 @@ public enum OpenConditionLockReason
     ScenarioModeClear = 32,
 }
 
-public class FurnitureDB
+public class FurnitureDB : ConsumableItemBaseDB
 {
+    public ParcelType Type;
     public FurnitureLocation Location;
     public float PositionX;
     public float PositionY;
@@ -2121,6 +2171,13 @@ public class ParcelResultStepInfo
 {
     public ParcelProcessActionType ParcelProcessActionType;
     public List<ParcelDetail> StepParcelDetails;
+}
+
+public class ConsumableItemBaseDB : ParcelBase
+{
+    public long ServerId;
+    public long UniqueId;
+    public long StackCount;
 }
 
 public enum EchelonStatusFlag
@@ -2464,16 +2521,29 @@ public enum ShopProductType
     Refresh = 2,
 }
 
-public class CurrencyTransaction
+public class CurrencyTransaction : ParcelBase
 {
-    public CurrencyValue currencyValue;
-}
-
-public class ConsumableItemBaseDB
-{
-    public long ServerId;
-    public long UniqueId;
-    public long StackCount;
+    public long Gold;
+    public long Gem;
+    public long GemBonus;
+    public long GemPaid;
+    public long ActionPoint;
+    public long ArenaTicket;
+    public long RaidTicket;
+    public long WeekDungeonChaserATicket;
+    public long WeekDungeonChaserBTicket;
+    public long WeekDungeonChaserCTicket;
+    public long WeekDungeonFindGiftTicket;
+    public long WeekDungeonBloodTicket;
+    public long AcademyTicket;
+    public long SchoolDungeonATicket;
+    public long SchoolDungeonBTicket;
+    public long SchoolDungeonCTicket;
+    public long TimeAttackDungeonTicket;
+    public long MasterCoin;
+    public long WorldRaidTicketA;
+    public long WorldRaidTicketB;
+    public long WorldRaidTicketC;
 }
 
 public enum ConsumeCondition
@@ -2525,12 +2595,459 @@ public class RaidPlayerInfoDB
     public Int64? AccountLevel;
 }
 
-public class RaidMemberCollection
+public class RaidMemberCollection : Dictionary<long, RaidMemberDescription>
+{
+    public long TotalDamage;
+    public List<RaidDamage> RaidDamages;
+}
+
+public class RaidDebuffCollection : Dictionary<string, DebuffDescription>
 {
 }
 
-public class RaidDebuffCollection
+public class RaidCharacterDB
 {
+    public long ServerId;
+    public long UniqueId;
+    public int StarGrade;
+    public int Level;
+    public int SlotIndex;
+    public long AccountId;
+    public bool IsAssist;
+    public bool HasWeapon;
+}
+
+public class CafeCharacterDB : VisitingCharacterDB
+{
+    public bool IsSummon;
+    public DateTime LastInteractTime;
+}
+
+public class ArenaTeamSettingDB
+{
+    public EchelonType EchelonType;
+    public long LeaderCharacterId;
+    public IList<ArenaCharacterDB> MainCharacters;
+    public IList<ArenaCharacterDB> SupportCharacters;
+    public ArenaCharacterDB TSSCharacterDB;
+    public long MapId;
+}
+
+public enum StarGoalType
+{
+    None = 0,
+    AllAlive = 1,
+    Clear = 2,
+    GetBoxes = 3,
+    ClearTimeInSec = 4,
+}
+
+public class VisitingCharacterDB
+{
+    public long UniqueId;
+    public long ServerId;
+}
+
+public enum EventTargetType
+{
+    WeekDungeon = 0,
+    Chaser = 1,
+    Campaign_Normal = 2,
+    Campaign_Hard = 3,
+    SchoolDungeon = 4,
+    AcademySchedule = 5,
+    TimeAttackDungeon = 6,
+    AccountLevelExpIncrease = 7,
+    Raid = 8,
+}
+
+public enum ProductTagType
+{
+    Monthly = 0,
+    Weekly = 1,
+    Biweekly = 2,
+}
+
+public enum PurchaseStatusCode
+{
+    None = 0,
+    Start = 1,
+    PublishSuccess = 2,
+    End = 3,
+    Error = 4,
+    DuplicateOrder = 5,
+    Refund = 6,
+}
+
+public enum ShopCashBlockType
+{
+    None = -9999,
+    GooglePlay = -3,
+    AppStore = -2,
+    All = -1,
+}
+
+public enum Rarity
+{
+    N = 0,
+    R = 1,
+    SR = 2,
+    SSR = 3,
+}
+
+public class ClearDeckEchelonDB
+{
+    public long CharacterIdLeader;
+    public List<ClearDeckCharacter> MainCharacters;
+    public List<ClearDeckCharacter> SupporterCharacters;
+    public ClearDeckCharacter TSSCharacter;
+    public int MainCharacterCount;
+    public int SupporterCharacterCount;
+    public int TotalCharacterCount;
+    public int MainCharacterLevelSum;
+    public int SupporterCharacterLevelSum;
+    public int TotalCharacterLevelSum;
+}
+
+public class MinigameJudgeRecord
+{
+    public int NoteIndex;
+    public float TimingError;
+    public int CurrentCombo;
+    public JudgeGrade JudgeGradeOfThisNote;
+    public bool IsFeverOn;
+}
+
+public class TimeAttackDungeonBattleHistoryDB
+{
+    public TimeAttackDungeonType DungeonType;
+    public long GeasId;
+    public long DefaultPoint;
+    public long ClearTimePoint;
+    public long EndFrame;
+    public List<TimeAttackDungeonCharacterDB> MainCharacterDBs;
+    public List<TimeAttackDungeonCharacterDB> SupportCharacterDBs;
+}
+
+public class ContentsValueChangeDB
+{
+    public ContentsChangeType ContentsChangeType;
+}
+
+public enum ContentsChangeType
+{
+    None = 0,
+    WorldRaidBossDamageRatio = 1,
+    WorldRaidBossGroupDate = 2,
+}
+
+public class WorldRaidWorldBossDB
+{
+    public long GroupId;
+    public long HP;
+    public long Participants;
+}
+
+public enum ConquestEventObjectType
+{
+    None = 0,
+    UnexpectedEnemy = 1,
+    TreasureBox = 2,
+    Eroison = 3,
+    End = 4,
+}
+
+public enum ConquestDisplayType
+{
+    None = 0,
+    TileConquered = 1,
+    TileUpgraded = 2,
+    SuddenEventOccured = 3,
+    BossOpen = 4,
+}
+
+public enum ConquestTileType
+{
+    None = 0,
+    Start = 1,
+    Normal = 2,
+    Battle = 3,
+    Base = 4,
+}
+
+public enum EventContentType
+{
+    Stage = 0,
+    Gacha = 1,
+    Mission = 2,
+    Shop = 3,
+    Raid = 4,
+    Arena = 5,
+    BoxGacha = 6,
+    Collection = 7,
+    Recollection = 8,
+    MiniGameRhythm = 9,
+    CardShop = 10,
+    EventLocation = 11,
+    MinigameRhythmEvent = 12,
+    FortuneGachaShop = 13,
+    SubEvent = 14,
+    EventMeetup = 15,
+    BoxGachaResult = 16,
+    Conquest = 17,
+    WorldRaid = 18,
+    DiceRace = 19,
+    MiniGameRhythmMission = 20,
+}
+
+public enum BannerDisplayType
+{
+    Lobby = 0,
+    Gacha = 1,
+}
+
+public class CheatEquipmentCustomPreset
+{
+    public int Tier;
+    public int Level;
+}
+
+public class CheatWeaponCustomPreset
+{
+    public int StarGrade;
+    public int Level;
+}
+
+public enum FurnitureLocation
+{
+    None = 0,
+    Inventory = 1,
+    Floor = 2,
+    WallLeft = 3,
+    WallRight = 4,
+}
+
+public enum ParcelProcessActionType
+{
+    None = 0,
+    Cost = 1,
+    Reward = 2,
+}
+
+public class ParcelDetail
+{
+    public ParcelInfo OriginParcel;
+    public ParcelInfo MailSendParcel;
+    public List<ParcelInfo> ConvertedParcelInfos;
+    public ParcelChangeType ParcelChangeType;
+}
+
+public enum HexaDisplayType
+{
+    None = 0,
+    EndBattle = 1,
+    PlayScenario = 2,
+    SpawnUnitFromUniqueId = 3,
+    StatBuff = 4,
+    DieUnit = 5,
+    HideStrategy = 6,
+    SpawnUnit = 7,
+    SpawnStrategy = 8,
+    SpawnTile = 9,
+    HideTile = 10,
+    ClearFogOfWar = 11,
+    MoveUnit = 12,
+    WarpUnit = 13,
+    SetTileMovablity = 14,
+    WarpUnitFromHideTile = 15,
+    BossExile = 16,
+}
+
+public class StrategyClearRewardInfo
+{
+    public List<ParcelInfo> FirstClearReward;
+    public List<ParcelInfo> ThreeStarReward;
+    public Dictionary<long, List<ParcelInfo>> StrategyObjectRewards;
+    public ParcelResultDB ParcelResultDB;
+    public List<ParcelInfo> EventContentBonusReward;
+    public CampaignStageHistoryDB CampaignStageHistoryDB;
+}
+
+public struct EntityId
+{
+}
+
+public class HeroSummary
+{
+    public long ServerId;
+    public EntityId BattleEntityId;
+    public long HeroId;
+    public int Grade;
+    public int Level;
+    public int ExSkillLevel;
+    public int PublicSkillLevel;
+    public int PassiveSkillLevel;
+    public int ExtraPassiveSkillLevel;
+    public StatSnapshotCollection StatSnapshotCollection;
+    public long HPRateBefore;
+    public long HPRateAfter;
+    public int CrowdControlCount;
+    public int CrowdControlDuration;
+    public int EvadeCount;
+    public int DamageImmuneCount;
+    public int CrowdControlImmuneCount;
+    public int DeadFrame;
+    public TacticEntityType TacticEntityType;
+    public List<BattleNumericLog> GivenNumericLogs;
+    public List<BattleNumericLog> TakenNumericLogs;
+    public List<BattleNumericLog> ObstacleBattleNumericLogs;
+    public List<EquipmentSetting> Equipments;
+    public WeaponSetting? CharacterWeapon;
+    public IDictionary<SkillSlot, int> SkillCount;
+    public KillLogCollection KillLog;
+}
+
+public class SkillCostSummary
+{
+    public float InitialCost;
+    public CostRegenSnapshotCollection CostPerFrameSnapshots;
+    public List<SkillCostAddSnapshot> CostAddSnapshots;
+    public List<SkillCostUseSnapshot> CostUseSnapshots;
+}
+
+public enum WeekDungeonType
+{
+    None = 0,
+    ChaserA = 1,
+    ChaserB = 2,
+    ChaserC = 3,
+    FindGift = 4,
+    Blood = 5,
+}
+
+public class FindGiftSummary
+{
+    public string UniqueName;
+    public int ClearCount;
+}
+
+public class RaidBossResultCollection : Dictionary<int, RaidBossResult>
+{
+}
+
+public class RaidDamageCollection : Dictionary<int, RaidDamage>
+{
+}
+
+public struct RaidDamage
+{
+    public int Index;
+    public long GivenDamage;
+    public long GivenGroggyPoint;
+}
+
+public struct DebuffDescription
+{
+    public long AccountId;
+    public string LogicEffectTemplateId;
+    public string LogicEffectGroupId;
+    public int LogicEffectLevel;
+    public int DurationFrame;
+    public SkillSlot SkillSlot;
+    public int IssuedTimestamp;
+}
+
+public class ArenaCharacterDB
+{
+    public long ServerId;
+    public long UniqueId;
+    public int StarGrade;
+    public int Level;
+    public int PublicSkillLevel;
+    public int ExSkillLevel;
+    public int PassiveSkillLevel;
+    public int ExtraPassiveSkillLevel;
+    public int LeaderSkillLevel;
+    public List<EquipmentDB> EquipmentDBs;
+    public Dictionary<long, long> FavorRankInfo;
+    public WeaponDB WeaponDB;
+    public GearDB GearDB;
+}
+
+public class ClearDeckCharacter
+{
+    public long CharacterId;
+    public int Level;
+    public int StarGrade;
+}
+
+public enum JudgeGrade
+{
+    None = 0,
+    Miss = 1,
+    Attack = 2,
+    Critical = 3,
+}
+
+public enum TimeAttackDungeonType
+{
+    None = 0,
+    Defense = 1,
+    Shooting = 2,
+    Destruction = 3,
+}
+
+public class TimeAttackDungeonCharacterDB
+{
+    public long ServerId;
+    public long UniqueId;
+    public int StarGrade;
+    public int Level;
+    public bool HasWeapon;
+    public bool IsAssist;
+}
+
+public enum ParcelChangeType
+{
+    NoChange = 0,
+    Terminated = 1,
+    MailSend = 2,
+    Converted = 3,
+}
+
+public class StatSnapshotCollection : Dictionary<StatType, StatSnapshot>
+{
+}
+
+public class BattleNumericLog
+{
+    public BattleEntityType EntityType;
+    public BattleLogCategory Category;
+    public BattleLogSourceType Source;
+    public long CalculatedSum;
+    public long AppliedSum;
+    public long Count;
+    public long CriticalMultiplierMax;
+    public long CriticalCount;
+    public long CalculatedMin;
+    public long CalculatedMax;
+    public long AppliedMin;
+    public long AppliedMax;
+}
+
+public struct EquipmentSetting
+{
+    public long ServerId;
+    public long UniqueId;
+    public int Level;
+    public int Tier;
+}
+
+public struct WeaponSetting
+{
+    public long UniqueId;
+    public int StarGrade;
+    public int Level;
 }
 
 public enum SkillSlot
@@ -2637,445 +3154,11 @@ public enum SkillSlot
     Count = 99,
 }
 
-public class RaidCharacterDB
-{
-    public long ServerId;
-    public long UniqueId;
-    public int StarGrade;
-    public int Level;
-    public int SlotIndex;
-    public long AccountId;
-    public bool IsAssist;
-    public bool HasWeapon;
-}
-
-public class CafeCharacterDB
-{
-    public bool IsSummon;
-    public DateTime LastInteractTime;
-}
-
-public class ArenaTeamSettingDB
-{
-    public EchelonType EchelonType;
-    public long LeaderCharacterId;
-    public IList<ArenaCharacterDB> MainCharacters;
-    public IList<ArenaCharacterDB> SupportCharacters;
-    public ArenaCharacterDB TSSCharacterDB;
-    public long MapId;
-}
-
-public enum StarGoalType
-{
-    None = 0,
-    AllAlive = 1,
-    Clear = 2,
-    GetBoxes = 3,
-    ClearTimeInSec = 4,
-}
-
-public class VisitingCharacterDB
-{
-    public long UniqueId;
-    public long ServerId;
-}
-
-public enum EventTargetType
-{
-    WeekDungeon = 0,
-    Chaser = 1,
-    Campaign_Normal = 2,
-    Campaign_Hard = 3,
-    SchoolDungeon = 4,
-    AcademySchedule = 5,
-    TimeAttackDungeon = 6,
-    AccountLevelExpIncrease = 7,
-    Raid = 8,
-}
-
-public enum PurchaseStatusCode
-{
-    None = 0,
-    Start = 1,
-    PublishSuccess = 2,
-    End = 3,
-    Error = 4,
-    DuplicateOrder = 5,
-    Refund = 6,
-}
-
-public enum Rarity
-{
-    N = 0,
-    R = 1,
-    SR = 2,
-    SSR = 3,
-}
-
-public class ClearDeckEchelonDB
-{
-    public long CharacterIdLeader;
-    public List<ClearDeckCharacter> MainCharacters;
-    public List<ClearDeckCharacter> SupporterCharacters;
-    public ClearDeckCharacter TSSCharacter;
-}
-
-public class MinigameJudgeRecord
-{
-    public int NoteIndex;
-    public float TimingError;
-    public int CurrentCombo;
-    public JudgeGrade JudgeGradeOfThisNote;
-    public bool IsFeverOn;
-}
-
-public class TimeAttackDungeonBattleHistoryDB
-{
-    public TimeAttackDungeonType DungeonType;
-    public long GeasId;
-    public long DefaultPoint;
-    public long ClearTimePoint;
-    public long EndFrame;
-    public List<TimeAttackDungeonCharacterDB> MainCharacterDBs;
-    public List<TimeAttackDungeonCharacterDB> SupportCharacterDBs;
-}
-
-public class WorldRaidWorldBossDB
-{
-    public long GroupId;
-    public long HP;
-    public long Participants;
-}
-
-public enum ConquestDisplayType
-{
-    None = 0,
-    TileConquered = 1,
-    TileUpgraded = 2,
-    SuddenEventOccured = 3,
-    BossOpen = 4,
-}
-
-public enum ConquestTileType
-{
-    None = 0,
-    Start = 1,
-    Normal = 2,
-    Battle = 3,
-    Base = 4,
-}
-
-public enum EventContentType
-{
-    Stage = 0,
-    Gacha = 1,
-    Mission = 2,
-    Shop = 3,
-    Raid = 4,
-    Arena = 5,
-    BoxGacha = 6,
-    Collection = 7,
-    Recollection = 8,
-    MiniGameRhythm = 9,
-    CardShop = 10,
-    EventLocation = 11,
-    MinigameRhythmEvent = 12,
-    FortuneGachaShop = 13,
-    SubEvent = 14,
-    EventMeetup = 15,
-    BoxGachaResult = 16,
-    Conquest = 17,
-    WorldRaid = 18,
-    DiceRace = 19,
-    MiniGameRhythmMission = 20,
-}
-
-public enum BannerDisplayType
-{
-    Lobby = 0,
-    Gacha = 1,
-}
-
-public class CheatEquipmentCustomPreset
-{
-    public int Tier;
-    public int Level;
-}
-
-public class CheatWeaponCustomPreset
-{
-    public int StarGrade;
-    public int Level;
-}
-
-public enum ParcelType
-{
-    None = 0,
-    Character = 1,
-    Currency = 2,
-    Equipment = 3,
-    Item = 4,
-    GachaGroup = 5,
-    Product = 6,
-    Shop = 7,
-    MemoryLobby = 8,
-    AccountExp = 9,
-    CharacterExp = 10,
-    FavorExp = 11,
-    TSS = 12,
-    Furniture = 13,
-    ShopRefresh = 14,
-    LocationExp = 15,
-    Recipe = 16,
-    CharacterWeapon = 17,
-    ProductMonthly = 18,
-    CharacterGear = 19,
-    IdCardBackground = 20,
-}
-
-public enum FurnitureLocation
-{
-    None = 0,
-    Inventory = 1,
-    Floor = 2,
-    WallLeft = 3,
-    WallRight = 4,
-}
-
-public enum ParcelProcessActionType
-{
-    None = 0,
-    Cost = 1,
-    Reward = 2,
-}
-
-public class ParcelDetail
-{
-    public ParcelInfo OriginParcel;
-    public ParcelInfo MailSendParcel;
-    public List<ParcelInfo> ConvertedParcelInfos;
-    public ParcelChangeType ParcelChangeType;
-}
-
-public enum HexaDisplayType
-{
-    None = 0,
-    EndBattle = 1,
-    PlayScenario = 2,
-    SpawnUnitFromUniqueId = 3,
-    StatBuff = 4,
-    DieUnit = 5,
-    HideStrategy = 6,
-    SpawnUnit = 7,
-    SpawnStrategy = 8,
-    SpawnTile = 9,
-    HideTile = 10,
-    ClearFogOfWar = 11,
-    MoveUnit = 12,
-    WarpUnit = 13,
-    SetTileMovablity = 14,
-    WarpUnitFromHideTile = 15,
-    BossExile = 16,
-}
-
-public class StrategyClearRewardInfo
-{
-    public List<ParcelInfo> FirstClearReward;
-    public List<ParcelInfo> ThreeStarReward;
-    public Dictionary<long, List<ParcelInfo>> StrategyObjectRewards;
-    public ParcelResultDB ParcelResultDB;
-    public List<ParcelInfo> ClearReward;
-    public List<ParcelInfo> ExpReward;
-    public List<ParcelInfo> TotalReward;
-    public List<ParcelInfo> EventContentReward;
-    public List<ParcelInfo> EventContentBonusReward;
-    public CampaignStageHistoryDB CampaignStageHistoryDB;
-}
-
-public struct EntityId
-{
-    public int uniqueId;
-}
-
-public class HeroSummary
-{
-    public long ServerId;
-    public EntityId BattleEntityId;
-    public long HeroId;
-    public int Grade;
-    public int Level;
-    public int ExSkillLevel;
-    public int PublicSkillLevel;
-    public int PassiveSkillLevel;
-    public int ExtraPassiveSkillLevel;
-    public StatSnapshotCollection StatSnapshotCollection;
-    public long HPRateBefore;
-    public long HPRateAfter;
-    public int CrowdControlCount;
-    public int CrowdControlDuration;
-    public int EvadeCount;
-    public int DamageImmuneCount;
-    public int CrowdControlImmuneCount;
-    public int DeadFrame;
-    public TacticEntityType TacticEntityType;
-    public HeroSummaryDetailFlag DetailFlag;
-    public List<BattleNumericLog> GivenNumericLogs;
-    public List<BattleNumericLog> TakenNumericLogs;
-    public List<BattleNumericLog> ObstacleBattleNumericLogs;
-    public List<EquipmentSetting> Equipments;
-    public WeaponSetting? CharacterWeapon;
-    public IDictionary<int, long> HitPointByFrame;
-    public IDictionary<SkillSlot, int> SkillCount;
-    public KillLogCollection KillLog;
-    public Dictionary<int, string> FullSnapshot;
-}
-
-public class SkillCostSummary
-{
-    public float InitialCost;
-    public CostRegenSnapshotCollection CostPerFrameSnapshots;
-    public List<SkillCostAddSnapshot> CostAddSnapshots;
-    public List<SkillCostUseSnapshot> CostUseSnapshots;
-}
-
-public enum WeekDungeonType
-{
-    None = 0,
-    ChaserA = 1,
-    ChaserB = 2,
-    ChaserC = 3,
-    FindGift = 4,
-    Blood = 5,
-}
-
-public class FindGiftSummary
-{
-    public string UniqueName;
-    public int ClearCount;
-}
-
-public class RaidBossResultCollection
+public class KillLogCollection : Collection<KillLog>
 {
 }
 
-public class CurrencyValue
-{
-    public Dictionary<CurrencyTypes, long> Values;
-}
-
-public class RaidDamageCollection
-{
-}
-
-public class ArenaCharacterDB
-{
-    public long ServerId;
-    public long UniqueId;
-    public int StarGrade;
-    public int Level;
-    public int PublicSkillLevel;
-    public int ExSkillLevel;
-    public int PassiveSkillLevel;
-    public int ExtraPassiveSkillLevel;
-    public int LeaderSkillLevel;
-    public List<EquipmentDB> EquipmentDBs;
-    public Dictionary<long, long> FavorRankInfo;
-    public WeaponDB WeaponDB;
-    public GearDB GearDB;
-}
-
-public class ClearDeckCharacter
-{
-    public long CharacterId;
-    public int Level;
-    public int StarGrade;
-}
-
-public enum JudgeGrade
-{
-    None = 0,
-    Miss = 1,
-    Attack = 2,
-    Critical = 3,
-}
-
-public enum TimeAttackDungeonType
-{
-    None = 0,
-    Defense = 1,
-    Shooting = 2,
-    Destruction = 3,
-}
-
-public class TimeAttackDungeonCharacterDB
-{
-    public long ServerId;
-    public long UniqueId;
-    public int StarGrade;
-    public int Level;
-    public bool HasWeapon;
-    public bool IsAssist;
-}
-
-public enum ParcelChangeType
-{
-    NoChange = 0,
-    Terminated = 1,
-    MailSend = 2,
-    Converted = 3,
-}
-
-public class StatSnapshotCollection
-{
-}
-
-public enum HeroSummaryDetailFlag
-{
-    None = 0,
-    BattleProperty = 2,
-    BattleStatistics = 4,
-    NumericLogs = 8,
-    Default = 14,
-    StatSnapshot = 16,
-    All = 30,
-}
-
-public class BattleNumericLog
-{
-    public BattleEntityType EntityType;
-    public BattleLogCategory Category;
-    public BattleLogSourceType Source;
-    public long CalculatedSum;
-    public long AppliedSum;
-    public long Count;
-    public long CriticalMultiplierMax;
-    public long CriticalCount;
-    public long CalculatedMin;
-    public long CalculatedMax;
-    public long AppliedMin;
-    public long AppliedMax;
-}
-
-public struct EquipmentSetting
-{
-    public long ServerId;
-    public long UniqueId;
-    public int Level;
-    public int Tier;
-}
-
-public struct WeaponSetting
-{
-    public long UniqueId;
-    public int StarGrade;
-    public int Level;
-}
-
-public class KillLogCollection
-{
-}
-
-public class CostRegenSnapshotCollection
+public class CostRegenSnapshotCollection : Dictionary<long, SkillCostRegenSnapshot>
 {
 }
 
@@ -3091,6 +3174,87 @@ public struct SkillCostUseSnapshot
     public float Used;
     public long CharId;
     public int Level;
+}
+
+public struct RaidBossResult
+{
+    public RaidDamage RaidDamage;
+    public long EndHpRateRawValue;
+    public long GroggyRateRawValue;
+    public int GroggyCount;
+    public List<long> SubPartsHPs;
+    public long AIPhase;
+}
+
+public enum StatType
+{
+    None = 0,
+    MaxHP = 1,
+    AttackPower = 2,
+    DefensePower = 3,
+    HealPower = 4,
+    AccuracyPoint = 5,
+    AccuracyRate = 6,
+    DodgePoint = 7,
+    DodgeRate = 8,
+    CriticalPoint = 9,
+    CriticalChanceRate = 10,
+    CriticalResistChanceRate = 11,
+    CriticalDamageRate = 12,
+    MoveSpeed = 13,
+    SightRange = 14,
+    ActiveGauge = 15,
+    StabilityPoint = 16,
+    StabilityRate = 17,
+    ReloadTime = 18,
+    MaxBulletCount = 19,
+    IgnoreDelayCount = 20,
+    WeaponRange = 21,
+    BlockRate = 22,
+    BodyRadius = 23,
+    ActionCount = 24,
+    StrategyMobility = 25,
+    StrategySightRange = 26,
+    StreetBattleAdaptation = 27,
+    OutdoorBattleAdaptation = 28,
+    IndoorBattleAdaptation = 29,
+    HealEffectivenessRate = 30,
+    CriticalChanceResistPoint = 31,
+    CriticalDamageResistRate = 32,
+    LifeRecoverOnHit = 33,
+    NormalAttackSpeed = 34,
+    AmmoCost = 35,
+    GroggyGauge = 36,
+    GroggyTime = 37,
+    DamageRatio = 38,
+    DamagedRatio = 39,
+    OppressionPower = 40,
+    OppressionResist = 41,
+    RegenCost = 42,
+    InitialWeaponRangeRate = 43,
+    DefensePenetration = 44,
+    DefensePenetrationResisit = 45,
+    ExtendBuffDuration = 46,
+    ExtendDebuffDuration = 47,
+    ExtendCrowdControlDuration = 48,
+    EnhanceExplosionRate = 49,
+    EnhancePierceRate = 50,
+    EnhanceMysticRate = 51,
+    EnhanceLightArmorRate = 52,
+    EnhanceHeavyArmorRate = 53,
+    EnhanceUnarmedRate = 54,
+    EnhanceSiegeRate = 55,
+    EnhanceNormalRate = 56,
+    EnhanceStructureRate = 57,
+    EnhanceNormalArmorRate = 58,
+    Max = 59,
+}
+
+public class StatSnapshot
+{
+    public StatType Stat;
+    public long Start;
+    public long End;
 }
 
 public enum BattleEntityType
@@ -3122,6 +3286,18 @@ public enum BattleLogSourceType
     Passive = 4,
     ExtraPassive = 5,
     Etc = 6,
+}
+
+public struct KillLog
+{
+    public int Frame;
+    public EntityId EntityId;
+}
+
+public struct SkillCostRegenSnapshot
+{
+    public long Frame;
+    public float Regen;
 }
 
 public static class ProtoDefine

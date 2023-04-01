@@ -98,21 +98,31 @@ internal class Program
 
             yield break; 
         }
-        
-        sw.WriteLine($"public {(type.IsValueType ? "struct" : "class")} {type.Name}");
+
+        string @base = null;
+
+        if (type.BaseType != null && type.BaseType != typeof(object) && type.BaseType != typeof(ValueType))
+        {
+            var @ref = new Ref<string>();
+            foreach (var t in TypeGetName(type.BaseType, @ref))
+                yield return t;
+            @base = $" : {@ref.t}".Replace("KeyedCollection", "Dictionary");
+        }
+
+        sw.WriteLine($"public {(type.IsValueType ? "struct" : "class")} {type.Name}{@base}");
         sw.WriteLine("{");
-        
+
         foreach (var prop in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
-            if (prop.IsPrivate && !(prop.Name.StartsWith("<") && prop.Name.EndsWith(">k__BackingField")))
+            if (prop.IsPrivate)
             {
-                if (prop.GetCustomAttribute<JsonPropertyAttribute>() != null)
+                if (prop.GetCustomAttribute<JsonPropertyAttribute>() == null)
                     continue;
             }
-            
+
             if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null)
                 continue;
-            
+
             var ptype = prop.FieldType;
 
             if (prop.DeclaringType != type) continue;
@@ -122,7 +132,30 @@ internal class Program
             foreach (var t in TypeGetName(ptype, name))
                 yield return t;
 
-            sw.WriteLine($"    public {name.t} {(prop.Name.StartsWith("<") && prop.Name.EndsWith(">k__BackingField") ? prop.Name.Split('>')[0].Split('<')[1] : prop.Name)};");
+            sw.WriteLine($"    public {name.t} {prop.Name};");
+        }
+
+        foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+        {
+            if (prop.GetMethod.IsPrivate)
+            {
+                if (prop.GetCustomAttribute<JsonPropertyAttribute>() == null)
+                    continue;
+            }
+
+            if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+                continue;
+
+            var ptype = prop.PropertyType;
+
+            if (prop.DeclaringType != type) continue;
+
+            var name = new Ref<string>();
+
+            foreach (var t in TypeGetName(ptype, name))
+                yield return t;
+
+            sw.WriteLine($"    public {name.t} {prop.Name};");
         }
 
 
@@ -140,9 +173,18 @@ internal class Program
         sw.WriteLine($"public class {type.Name} : {baseClass}");
         sw.WriteLine("{");
         sw.WriteLine($"    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.{proto};");
-        
+
         foreach (var prop in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
+            if (prop.IsPrivate)
+            {
+                if (prop.GetCustomAttribute<JsonPropertyAttribute>() == null)
+                    continue;
+            }
+
+            if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+                continue;
+
             var ptype = prop.FieldType;
 
             if (prop.DeclaringType != type) continue;
@@ -152,9 +194,32 @@ internal class Program
             foreach (var t in TypeGetName(ptype, name))
                 yield return t;
 
-            sw.WriteLine($"    public {name.t} {(prop.Name.StartsWith("<") && prop.Name.EndsWith(">k__BackingField") ? prop.Name.Split('>')[0].Split('<')[1] : prop.Name)};");
+            sw.WriteLine($"    public {name.t} {prop.Name};");
         }
-        
+
+        foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+        {
+            if (prop.GetMethod.IsPrivate)
+            {
+                if (prop.GetCustomAttribute<JsonPropertyAttribute>() == null)
+                    continue;
+            }
+
+            if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null || prop.Name == "Protocol")
+                continue;
+
+            var ptype = prop.PropertyType;
+
+            if (prop.DeclaringType != type) continue;
+
+            var name = new Ref<string>();
+
+            foreach (var t in TypeGetName(ptype, name))
+                yield return t;
+
+            sw.WriteLine($"    public {name.t} {prop.Name};");
+        }
+
         sw.WriteLine("}");
         sw.WriteLine("");
 

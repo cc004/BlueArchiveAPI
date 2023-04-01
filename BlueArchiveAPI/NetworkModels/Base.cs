@@ -14,14 +14,24 @@ namespace BlueArchiveAPI.NetworkModels
     
     public abstract class Request<T> : Packet where T : Packet
     {
+        public int ClientUpTime;
 
+        public bool Resendable;
+
+        public long Hash;
+
+        public DateTime? ModifiedServerTime__DebugOnly;
     }
     
     public abstract class Response<T> : Packet where T : Packet
     {
-
+        public long ServerTimeTicks;
+        public ServerNotificationFlag ServerNotification;
+        public List<MissionProgressDB> MissionProgressDBs;
+        public Dictionary<long, List<MissionProgressDB>> EventMissionProgressDBDict;
+        public Dictionary<OpenConditionContent, OpenConditionLockReason> StaticOpenConditions;
     }
-    
+
     public class TypedJsonWrapper<T> where T : class
     {
         public T Instance;

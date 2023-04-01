@@ -657,7 +657,6 @@ public class RaidBattleUpdateRequest : Request<RaidBattleUpdateResponse>
     public int RaidBossIndex;
     public long CumulativeDamage;
     public long CumulativeGroggyPoint;
-    public List<DebuffDescription> playerDebuffs;
 }
 
 public class RaidEndBattleRequest : Request<RaidEndBattleResponse>
@@ -666,7 +665,6 @@ public class RaidEndBattleRequest : Request<RaidEndBattleResponse>
     public int EchelonId;
     public long RaidServerId;
     public bool IsPractice;
-    public List<DebuffDescription> playerDebuffs;
     public BattleSummary Summary;
     public ClanAssistUseInfo AssistUseInfo;
 }

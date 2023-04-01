@@ -1292,6 +1292,7 @@ public class ClanMemberResponse : Response<ClanMemberRequest>
     public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Member;
     public ClanDB ClanDB;
     public ClanMemberDB ClanMemberDB;
+    public long CollectedCharactersCount;
     public ClanMemberDescriptionDB ClanMemberDescriptionDB;
 }
 
@@ -1733,8 +1734,8 @@ public class EventContentLocationAttendScheduleResponse : Response<EventContentL
 public class EventContentFortuneGachaPurchaseResponse : Response<EventContentFortuneGachaPurchaseRequest>
 {
     public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_FortuneGachaPurchase;
-    public ParcelResultDB ParcelResultDB;
     public long FortuneGachaShopUniqueId;
+    public ParcelResultDB ParcelResultDB;
 }
 
 public class EventContentSubEventLobbyResponse : Response<EventContentSubEventLobbyRequest>
