@@ -1,27 +1,36 @@
 namespace BlueArchiveAPI.NetworkModels;
 using System.Collections.ObjectModel;
 
-public class SystemVersionRequest : Request<SystemVersionResponse>
+public class SystemVersionRequest : RequestPacket, IRequest<SystemVersionResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.System_Version;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.System_Version;
 }
 
-public class SessionInfoRequest : Request<SessionInfoResponse>
+public class SessionInfoRequest : RequestPacket, IRequest<SessionInfoResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Session_Info;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Session_Info;
 }
 
-public class AuditGachaStatisticsRequest : Request<AuditGachaStatisticsResponse>
+public class NetworkTimeSyncRequest : RequestPacket, IRequest<NetworkTimeSyncResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Audit_GachaStatistics;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.NetworkTime_Sync;
+    public long SendTick;
+    public long ReceiveTick;
+    public long EchoSendTick;
+    public long EchoReceiveTick;
+}
+
+public class AuditGachaStatisticsRequest : RequestPacket, IRequest<AuditGachaStatisticsResponse>
+{
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Audit_GachaStatistics;
     public long MerchandiseUniqueId;
     public long ShopUniqueId;
     public long Count;
 }
 
-public class AccountCreateRequest : Request<AccountCreateResponse>
+public class AccountCreateRequest : RequestPacket, IRequest<AccountCreateResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Create;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Create;
     public string DevId;
     public long Version;
     public long IMEI;
@@ -34,15 +43,15 @@ public class AccountCreateRequest : Request<AccountCreateResponse>
     public string CountryCode;
 }
 
-public class AccountNicknameRequest : Request<AccountNicknameResponse>
+public class AccountNicknameRequest : RequestPacket, IRequest<AccountNicknameResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Nickname;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Nickname;
     public string Nickname;
 }
 
-public class AccountAuthRequest : Request<AccountAuthResponse>
+public class AccountAuthRequest : RequestPacket, IRequest<AccountAuthResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Auth;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Auth;
     public long Version;
     public string DevId;
     public long IMEI;
@@ -60,38 +69,38 @@ public class AccountAuthRequest : Request<AccountAuthResponse>
     public bool IsTeenVersion;
 }
 
-public class AccountCurrencySyncRequest : Request<AccountCurrencySyncResponse>
+public class AccountCurrencySyncRequest : RequestPacket, IRequest<AccountCurrencySyncResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CurrencySync;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CurrencySync;
 }
 
-public class AccountSetRepresentCharacterAndCommentRequest : Request<AccountSetRepresentCharacterAndCommentResponse>
+public class AccountSetRepresentCharacterAndCommentRequest : RequestPacket, IRequest<AccountSetRepresentCharacterAndCommentResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_SetRepresentCharacterAndComment;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_SetRepresentCharacterAndComment;
     public int RepresentCharacterServerId;
     public string Comment;
 }
 
-public class AccountGetTutorialRequest : Request<AccountGetTutorialResponse>
+public class AccountGetTutorialRequest : RequestPacket, IRequest<AccountGetTutorialResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_GetTutorial;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_GetTutorial;
 }
 
-public class AccountSetTutorialRequest : Request<AccountSetTutorialResponse>
+public class AccountSetTutorialRequest : RequestPacket, IRequest<AccountSetTutorialResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_SetTutorial;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_SetTutorial;
     public List<long> TutorialIds;
 }
 
-public class AccountPassCheckRequest : Request<AccountPassCheckResponse>
+public class AccountPassCheckRequest : RequestPacket, IRequest<AccountPassCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_PassCheck;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_PassCheck;
     public string DevId;
 }
 
-public class AccountCheckYostarRequest : Request<AccountCheckYostarResponse>
+public class AccountCheckYostarRequest : RequestPacket, IRequest<AccountCheckYostarResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CheckYostar;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CheckYostar;
     public long UID;
     public string YostarToken;
     public string EnterTicket;
@@ -99,540 +108,540 @@ public class AccountCheckYostarRequest : Request<AccountCheckYostarResponse>
     public string Cookie;
 }
 
-public class AccountCallNameRequest : Request<AccountCallNameResponse>
+public class AccountCallNameRequest : RequestPacket, IRequest<AccountCallNameResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CallName;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CallName;
     public string CallName;
     public string CallNameKatakana;
 }
 
-public class AccountBirthDayRequest : Request<AccountBirthDayResponse>
+public class AccountBirthDayRequest : RequestPacket, IRequest<AccountBirthDayResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_BirthDay;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_BirthDay;
     public DateTime BirthDay;
 }
 
-public class AccountAuth2Request : Request<AccountAuth2Response>
+public class AccountAuth2Request : AccountAuthRequest, IRequest<AccountAuth2Response>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Auth2;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_Auth2;
 }
 
-public class AccountLinkRewardRequest : Request<AccountLinkRewardResponse>
+public class AccountLinkRewardRequest : RequestPacket, IRequest<AccountLinkRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_LinkReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_LinkReward;
 }
 
-public class AccountCheckNexonRequest : Request<AccountCheckNexonResponse>
+public class AccountCheckNexonRequest : RequestPacket, IRequest<AccountCheckNexonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CheckNexon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_CheckNexon;
     public long NpSN;
     public string NpToken;
     public bool PassCheckNexonServer;
     public string EnterTicket;
 }
 
-public class AccountDetachNexonRequest : Request<AccountDetachNexonResponse>
+public class AccountDetachNexonRequest : RequestPacket, IRequest<AccountDetachNexonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_DetachNexon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_DetachNexon;
 }
 
-public class AccountReportXignCodeCheaterRequest : Request<AccountReportXignCodeCheaterResponse>
+public class AccountReportXignCodeCheaterRequest : RequestPacket, IRequest<AccountReportXignCodeCheaterResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_ReportXignCodeCheater;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_ReportXignCodeCheater;
     public string ErrorCode;
 }
 
-public class AccountDismissRepurchasablePopupRequest : Request<AccountDismissRepurchasablePopupResponse>
+public class AccountDismissRepurchasablePopupRequest : RequestPacket, IRequest<AccountDismissRepurchasablePopupResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_DismissRepurchasablePopup;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_DismissRepurchasablePopup;
     public List<long> ProductIds;
 }
 
-public class AccountInvalidateTokenRequest : Request<AccountInvalidateTokenResponse>
+public class AccountInvalidateTokenRequest : RequestPacket, IRequest<AccountInvalidateTokenResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_InvalidateToken;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_InvalidateToken;
 }
 
-public class AccountLoginSyncRequest : Request<AccountLoginSyncResponse>
+public class AccountLoginSyncRequest : RequestPacket, IRequest<AccountLoginSyncResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_LoginSync;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_LoginSync;
     public List<Protocol> SyncProtocols;
 }
 
-public class AccountVerifyAdultCheckRequest : Request<AccountVerifyAdultCheckResponse>
+public class AccountVerifyAdultCheckRequest : RequestPacket, IRequest<AccountVerifyAdultCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_VerifyCheckAdultAgree;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Account_VerifyCheckAdultAgree;
 }
 
-public class CharacterListRequest : Request<CharacterListResponse>
+public class CharacterListRequest : RequestPacket, IRequest<CharacterListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_List;
 }
 
-public class CharacterTranscendenceRequest : Request<CharacterTranscendenceResponse>
+public class CharacterTranscendenceRequest : RequestPacket, IRequest<CharacterTranscendenceResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_Transcendence;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_Transcendence;
     public long TargetCharacterServerId;
 }
 
-public class CharacterExpGrowthRequest : Request<CharacterExpGrowthResponse>
+public class CharacterExpGrowthRequest : RequestPacket, IRequest<CharacterExpGrowthResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_ExpGrowth;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_ExpGrowth;
     public long TargetCharacterServerId;
     public ConsumeRequestDB ConsumeRequestDB;
 }
 
-public class CharacterFavorGrowthRequest : Request<CharacterFavorGrowthResponse>
+public class CharacterFavorGrowthRequest : RequestPacket, IRequest<CharacterFavorGrowthResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_FavorGrowth;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_FavorGrowth;
     public long TargetCharacterDBId;
     public Dictionary<long, int> ConsumeItemDBIdsAndCounts;
 }
 
-public class CharacterUnlockWeaponRequest : Request<CharacterUnlockWeaponResponse>
+public class CharacterUnlockWeaponRequest : RequestPacket, IRequest<CharacterUnlockWeaponResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_UnlockWeapon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_UnlockWeapon;
     public long TargetCharacterServerId;
 }
 
-public class CharacterWeaponExpGrowthRequest : Request<CharacterWeaponExpGrowthResponse>
+public class CharacterWeaponExpGrowthRequest : RequestPacket, IRequest<CharacterWeaponExpGrowthResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_WeaponExpGrowth;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_WeaponExpGrowth;
     public long TargetCharacterServerId;
     public Dictionary<long, long> ConsumeUniqueIdAndCounts;
 }
 
-public class CharacterWeaponTranscendenceRequest : Request<CharacterWeaponTranscendenceResponse>
+public class CharacterWeaponTranscendenceRequest : RequestPacket, IRequest<CharacterWeaponTranscendenceResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_WeaponTranscendence;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_WeaponTranscendence;
     public long TargetCharacterServerId;
 }
 
-public class CharacterSetFavoritesRequest : Request<CharacterSetFavoritesResponse>
+public class CharacterSetFavoritesRequest : RequestPacket, IRequest<CharacterSetFavoritesResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_SetFavorites;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Character_SetFavorites;
     public Dictionary<long, bool> ActivateByServerIds;
 }
 
-public class EquipmentBatchGrowthRequest : Request<EquipmentBatchGrowthResponse>
+public class EquipmentBatchGrowthRequest : RequestPacket, IRequest<EquipmentBatchGrowthResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Equipment_BatchGrowth;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Equipment_BatchGrowth;
     public List<EquipmentBatchGrowthRequestDB> EquipmentBatchGrowthRequestDBs;
 }
 
-public class ItemListRequest : Request<ItemListResponse>
+public class ItemListRequest : RequestPacket, IRequest<ItemListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_List;
 }
 
-public class ItemSellRequest : Request<ItemSellResponse>
+public class ItemSellRequest : RequestPacket, IRequest<ItemSellResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_Sell;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_Sell;
     public List<long> TargetServerIds;
 }
 
-public class ItemConsumeRequest : Request<ItemConsumeResponse>
+public class ItemConsumeRequest : RequestPacket, IRequest<ItemConsumeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_Consume;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_Consume;
     public long TargetItemServerId;
     public int ConsumeCount;
 }
 
-public class ItemLockRequest : Request<ItemLockResponse>
+public class ItemLockRequest : RequestPacket, IRequest<ItemLockResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_Lock;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_Lock;
     public long TargetServerId;
     public bool IsLocked;
 }
 
-public class ItemBulkConsumeRequest : Request<ItemBulkConsumeResponse>
+public class ItemBulkConsumeRequest : RequestPacket, IRequest<ItemBulkConsumeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_BulkConsume;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_BulkConsume;
     public long TargetItemServerId;
     public int ConsumeCount;
 }
 
-public class ItemSelectTicketRequest : Request<ItemSelectTicketResponse>
+public class ItemSelectTicketRequest : RequestPacket, IRequest<ItemSelectTicketResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_SelectTicket;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Item_SelectTicket;
     public long TicketItemServerId;
     public long SelectItemUniqueId;
     public int ConsumeCount;
 }
 
-public class EchelonListRequest : Request<EchelonListResponse>
+public class EchelonListRequest : RequestPacket, IRequest<EchelonListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_List;
 }
 
-public class EchelonSaveRequest : Request<EchelonSaveResponse>
+public class EchelonSaveRequest : RequestPacket, IRequest<EchelonSaveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_Save;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_Save;
     public EchelonDB EchelonDB;
     public List<ClanAssistUseInfo> AssistUseInfos;
 }
 
-public class EchelonPresetListRequest : Request<EchelonPresetListResponse>
+public class EchelonPresetListRequest : RequestPacket, IRequest<EchelonPresetListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_PresetList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_PresetList;
 }
 
-public class EchelonPresetSaveRequest : Request<EchelonPresetSaveResponse>
+public class EchelonPresetSaveRequest : RequestPacket, IRequest<EchelonPresetSaveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_PresetSave;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_PresetSave;
     public EchelonPresetDB PresetDB;
 }
 
-public class EchelonPresetGroupRenameRequest : Request<EchelonPresetGroupRenameResponse>
+public class EchelonPresetGroupRenameRequest : RequestPacket, IRequest<EchelonPresetGroupRenameResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_PresetGroupRename;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Echelon_PresetGroupRename;
     public int PresetGroupIndex;
     public string PresetGroupLabel;
 }
 
-public class CampaignListRequest : Request<CampaignListResponse>
+public class CampaignListRequest : RequestPacket, IRequest<CampaignListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_List;
 }
 
-public class CampaignEnterMainStageRequest : Request<CampaignEnterMainStageResponse>
+public class CampaignEnterMainStageRequest : RequestPacket, IRequest<CampaignEnterMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterMainStage;
     public long StageUniqueId;
 }
 
-public class CampaignConfirmMainStageRequest : Request<CampaignConfirmMainStageResponse>
+public class CampaignConfirmMainStageRequest : RequestPacket, IRequest<CampaignConfirmMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_ConfirmMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_ConfirmMainStage;
     public long StageUniqueId;
 }
 
-public class CampaignDeployEchelonRequest : Request<CampaignDeployEchelonResponse>
+public class CampaignDeployEchelonRequest : RequestPacket, IRequest<CampaignDeployEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_DeployEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_DeployEchelon;
     public long StageUniqueId;
     public List<HexaUnit> DeployedEchelons;
 }
 
-public class CampaignWithdrawEchelonRequest : Request<CampaignWithdrawEchelonResponse>
+public class CampaignWithdrawEchelonRequest : RequestPacket, IRequest<CampaignWithdrawEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_WithdrawEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_WithdrawEchelon;
     public long StageUniqueId;
     public List<long> WithdrawEchelonEntityId;
 }
 
-public class CampaignMapMoveRequest : Request<CampaignMapMoveResponse>
+public class CampaignMapMoveRequest : RequestPacket, IRequest<CampaignMapMoveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_MapMove;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_MapMove;
     public long StageUniqueId;
     public long EchelonEntityId;
     public HexLocation DestPosition;
 }
 
-public class CampaignEndTurnRequest : Request<CampaignEndTurnResponse>
+public class CampaignEndTurnRequest : RequestPacket, IRequest<CampaignEndTurnResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EndTurn;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EndTurn;
     public long StageUniqueId;
 }
 
-public class CampaignEnterTacticRequest : Request<CampaignEnterTacticResponse>
+public class CampaignEnterTacticRequest : RequestPacket, IRequest<CampaignEnterTacticResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterTactic;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterTactic;
     public long StageUniqueId;
     public long EchelonIndex;
     public long EnemyIndex;
 }
 
-public class CampaignTacticResultRequest : Request<CampaignTacticResultResponse>
+public class CampaignTacticResultRequest : RequestPacket, IRequest<CampaignTacticResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_TacticResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_TacticResult;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
     public SkillCardHand Hand;
     public TacticSkipSummary SkipSummary;
 }
 
-public class CampaignRetreatRequest : Request<CampaignRetreatResponse>
+public class CampaignRetreatRequest : RequestPacket, IRequest<CampaignRetreatResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_Retreat;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_Retreat;
     public long StageUniqueId;
 }
 
-public class CampaignChapterClearRewardRequest : Request<CampaignChapterClearRewardResponse>
+public class CampaignChapterClearRewardRequest : RequestPacket, IRequest<CampaignChapterClearRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_ChapterClearReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_ChapterClearReward;
     public long CampaignChapterUniqueId;
     public StageDifficulty StageDifficulty;
 }
 
-public class CampaignHealRequest : Request<CampaignHealResponse>
+public class CampaignHealRequest : RequestPacket, IRequest<CampaignHealResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_Heal;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_Heal;
     public long CampaignStageUniqueId;
     public long EchelonIndex;
     public long CharacterServerId;
 }
 
-public class CampaignEnterSubStageRequest : Request<CampaignEnterSubStageResponse>
+public class CampaignEnterSubStageRequest : RequestPacket, IRequest<CampaignEnterSubStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterSubStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterSubStage;
     public long StageUniqueId;
     public long LastEnterStageEchelonNumber;
 }
 
-public class CampaignSubStageResultRequest : Request<CampaignSubStageResultResponse>
+public class CampaignSubStageResultRequest : RequestPacket, IRequest<CampaignSubStageResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_SubStageResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_SubStageResult;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
 }
 
-public class CampaignPortalRequest : Request<CampaignPortalResponse>
+public class CampaignPortalRequest : RequestPacket, IRequest<CampaignPortalResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_Portal;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_Portal;
     public long StageUniqueId;
     public long EchelonEntityId;
 }
 
-public class CampaignConfirmTutorialStageRequest : Request<CampaignConfirmTutorialStageResponse>
+public class CampaignConfirmTutorialStageRequest : RequestPacket, IRequest<CampaignConfirmTutorialStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_ConfirmTutorialStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_ConfirmTutorialStage;
     public long StageUniqueId;
 }
 
-public class CampaignPurchasePlayCountHardStageRequest : Request<CampaignPurchasePlayCountHardStageResponse>
+public class CampaignPurchasePlayCountHardStageRequest : RequestPacket, IRequest<CampaignPurchasePlayCountHardStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_PurchasePlayCountHardStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_PurchasePlayCountHardStage;
     public long StageUniqueId;
 }
 
-public class CampaignEnterTutorialStageRequest : Request<CampaignEnterTutorialStageResponse>
+public class CampaignEnterTutorialStageRequest : RequestPacket, IRequest<CampaignEnterTutorialStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterTutorialStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_EnterTutorialStage;
     public long StageUniqueId;
 }
 
-public class CampaignTutorialStageResultRequest : Request<CampaignTutorialStageResultResponse>
+public class CampaignTutorialStageResultRequest : RequestPacket, IRequest<CampaignTutorialStageResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_TutorialStageResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_TutorialStageResult;
     public BattleSummary Summary;
 }
 
-public class CampaignRestartMainStageRequest : Request<CampaignRestartMainStageResponse>
+public class CampaignRestartMainStageRequest : RequestPacket, IRequest<CampaignRestartMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_RestartMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Campaign_RestartMainStage;
     public long StageUniqueId;
 }
 
-public class MailListRequest : Request<MailListResponse>
+public class MailListRequest : RequestPacket, IRequest<MailListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mail_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mail_List;
     public bool IsReadMail;
     public DateTime PivotTime;
     public long PivotIndex;
     public bool IsDescending;
 }
 
-public class MailCheckRequest : Request<MailCheckResponse>
+public class MailCheckRequest : RequestPacket, IRequest<MailCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mail_Check;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mail_Check;
 }
 
-public class MailReceiveRequest : Request<MailReceiveResponse>
+public class MailReceiveRequest : RequestPacket, IRequest<MailReceiveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mail_Receive;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mail_Receive;
     public List<long> MailServerIds;
 }
 
-public class MissionListRequest : Request<MissionListResponse>
+public class MissionListRequest : RequestPacket, IRequest<MissionListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_List;
     public Int64? EventContentId;
 }
 
-public class MissionRewardRequest : Request<MissionRewardResponse>
+public class MissionRewardRequest : RequestPacket, IRequest<MissionRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_Reward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_Reward;
     public long MissionUniqueId;
     public long ProgressServerId;
     public Int64? EventContentId;
 }
 
-public class MissionMultipleRewardRequest : Request<MissionMultipleRewardResponse>
+public class MissionMultipleRewardRequest : RequestPacket, IRequest<MissionMultipleRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_MultipleReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_MultipleReward;
     public MissionCategory MissionCategory;
     public Int64? GuideMissionSeasonId;
     public Int64? EventContentId;
 }
 
-public class MissionSyncRequest : Request<MissionSyncResponse>
+public class MissionSyncRequest : RequestPacket, IRequest<MissionSyncResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_Sync;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Mission_Sync;
 }
 
-public class AttendanceRewardRequest : Request<AttendanceRewardResponse>
+public class AttendanceRewardRequest : RequestPacket, IRequest<AttendanceRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Attendance_Reward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Attendance_Reward;
     public Dictionary<long, long> DayByBookUniqueId;
     public long AttendanceBookUniqueId;
     public long Day;
 }
 
-public class ShopBuyMerchandiseRequest : Request<ShopBuyMerchandiseResponse>
+public class ShopBuyMerchandiseRequest : RequestPacket, IRequest<ShopBuyMerchandiseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyMerchandise;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyMerchandise;
     public bool IsRefreshGoods;
     public long ShopUniqueId;
     public long GoodsId;
     public long PurchaseCount;
 }
 
-public class ShopBuyGachaRequest : Request<ShopBuyGachaResponse>
+public class ShopBuyGachaRequest : RequestPacket, IRequest<ShopBuyGachaResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyGacha;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyGacha;
     public long GoodsId;
     public long ShopUniqueId;
 }
 
-public class ShopListRequest : Request<ShopListResponse>
+public class ShopListRequest : RequestPacket, IRequest<ShopListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_List;
     public List<ShopCategoryType> CategoryList;
 }
 
-public class ShopRefreshRequest : Request<ShopRefreshResponse>
+public class ShopRefreshRequest : RequestPacket, IRequest<ShopRefreshResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_Refresh;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_Refresh;
     public ShopCategoryType ShopCategoryType;
 }
 
-public class ShopBuyEligmaRequest : Request<ShopBuyEligmaResponse>
+public class ShopBuyEligmaRequest : RequestPacket, IRequest<ShopBuyEligmaResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyEligma;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyEligma;
     public long GoodsUniqueId;
     public long ShopUniqueId;
     public long CharacterUniqueId;
     public long PurchaseCount;
 }
 
-public class ShopBuyGacha2Request : Request<ShopBuyGacha2Response>
+public class ShopBuyGacha2Request : ShopBuyGachaRequest, IRequest<ShopBuyGacha2Response>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyGacha2;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyGacha2;
 }
 
-public class ShopGachaRecruitListRequest : Request<ShopGachaRecruitListResponse>
+public class ShopGachaRecruitListRequest : RequestPacket, IRequest<ShopGachaRecruitListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_GachaRecruitList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_GachaRecruitList;
 }
 
-public class ShopBuyRefreshMerchandiseRequest : Request<ShopBuyRefreshMerchandiseResponse>
+public class ShopBuyRefreshMerchandiseRequest : RequestPacket, IRequest<ShopBuyRefreshMerchandiseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyRefreshMerchandise;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyRefreshMerchandise;
     public List<long> ShopUniqueIds;
 }
 
-public class ShopBuyGacha3Request : Request<ShopBuyGacha3Response>
+public class ShopBuyGacha3Request : ShopBuyGacha2Request, IRequest<ShopBuyGacha3Response>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyGacha3;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyGacha3;
     public long FreeRecruitId;
     public ParcelCost Cost;
 }
 
-public class ShopBuyAPRequest : Request<ShopBuyAPResponse>
+public class ShopBuyAPRequest : RequestPacket, IRequest<ShopBuyAPResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyAP;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Shop_BuyAP;
     public long ShopUniqueId;
     public long PurchaseCount;
 }
 
-public class RecipeCraftRequest : Request<RecipeCraftResponse>
+public class RecipeCraftRequest : RequestPacket, IRequest<RecipeCraftResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Recipe_Craft;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Recipe_Craft;
     public long RecipeCraftUniqueId;
     public long RecipeIngredientUniqueId;
 }
 
-public class MemoryLobbyListRequest : Request<MemoryLobbyListResponse>
+public class MemoryLobbyListRequest : RequestPacket, IRequest<MemoryLobbyListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_List;
 }
 
-public class MemoryLobbySetMainRequest : Request<MemoryLobbySetMainResponse>
+public class MemoryLobbySetMainRequest : RequestPacket, IRequest<MemoryLobbySetMainResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_SetMain;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_SetMain;
     public long MemoryLobbyId;
 }
 
-public class MemoryLobbyUpdateLobbyModeRequest : Request<MemoryLobbyUpdateLobbyModeResponse>
+public class MemoryLobbyUpdateLobbyModeRequest : RequestPacket, IRequest<MemoryLobbyUpdateLobbyModeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_UpdateLobbyMode;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_UpdateLobbyMode;
     public bool IsMemoryLobbyMode;
 }
 
-public class MemoryLobbyInteractRequest : Request<MemoryLobbyInteractResponse>
+public class MemoryLobbyInteractRequest : RequestPacket, IRequest<MemoryLobbyInteractResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_Interact;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MemoryLobby_Interact;
 }
 
-public class CumulativeTimeRewardListRequest : Request<CumulativeTimeRewardListResponse>
+public class CumulativeTimeRewardListRequest : RequestPacket, IRequest<CumulativeTimeRewardListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CumulativeTimeReward_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CumulativeTimeReward_List;
 }
 
-public class OpenConditionListRequest : Request<OpenConditionListResponse>
+public class OpenConditionListRequest : RequestPacket, IRequest<OpenConditionListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.OpenCondition_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.OpenCondition_List;
 }
 
-public class OpenConditionSetRequest : Request<OpenConditionSetResponse>
+public class OpenConditionSetRequest : RequestPacket, IRequest<OpenConditionSetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.OpenCondition_Set;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.OpenCondition_Set;
     public OpenConditionDB ConditionDB;
 }
 
-public class OpenConditionEventListRequest : Request<OpenConditionEventListResponse>
+public class OpenConditionEventListRequest : RequestPacket, IRequest<OpenConditionEventListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.OpenCondition_EventList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.OpenCondition_EventList;
     public List<long> ConquestEventIds;
     public Dictionary<long, long> WorldRaidSeasonAndGroupIds;
 }
 
-public class ToastListRequest : Request<ToastListResponse>
+public class ToastListRequest : RequestPacket, IRequest<ToastListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Toast_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Toast_List;
 }
 
-public class RaidListRequest : Request<RaidListResponse>
+public class RaidListRequest : RequestPacket, IRequest<RaidListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_List;
     public string RaidBossGroup;
     public Difficulty RaidDifficulty;
     public RaidRoomSortOption RaidRoomSortOption;
 }
 
-public class RaidCompleteListRequest : Request<RaidCompleteListResponse>
+public class RaidCompleteListRequest : RequestPacket, IRequest<RaidCompleteListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_CompleteList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_CompleteList;
 }
 
-public class RaidDetailRequest : Request<RaidDetailResponse>
+public class RaidDetailRequest : RequestPacket, IRequest<RaidDetailResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Detail;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Detail;
     public long RaidServerId;
     public long RaidUniqueId;
 }
 
-public class RaidSearchRequest : Request<RaidSearchResponse>
+public class RaidSearchRequest : RequestPacket, IRequest<RaidSearchResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Search;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Search;
     public string SecretCode;
     public List<string> Tags;
 }
 
-public class RaidCreateBattleRequest : Request<RaidCreateBattleResponse>
+public class RaidCreateBattleRequest : RequestPacket, IRequest<RaidCreateBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_CreateBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_CreateBattle;
     public long RaidUniqueId;
     public bool IsPractice;
     public List<int> Tags;
@@ -641,27 +650,27 @@ public class RaidCreateBattleRequest : Request<RaidCreateBattleResponse>
     public ClanAssistUseInfo AssistUseInfo;
 }
 
-public class RaidEnterBattleRequest : Request<RaidEnterBattleResponse>
+public class RaidEnterBattleRequest : RequestPacket, IRequest<RaidEnterBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_EnterBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_EnterBattle;
     public long RaidServerId;
     public long RaidUniqueId;
     public bool IsPractice;
     public ClanAssistUseInfo AssistUseInfo;
 }
 
-public class RaidBattleUpdateRequest : Request<RaidBattleUpdateResponse>
+public class RaidBattleUpdateRequest : RequestPacket, IRequest<RaidBattleUpdateResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_BattleUpdate;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_BattleUpdate;
     public long RaidServerId;
     public int RaidBossIndex;
     public long CumulativeDamage;
     public long CumulativeGroggyPoint;
 }
 
-public class RaidEndBattleRequest : Request<RaidEndBattleResponse>
+public class RaidEndBattleRequest : RequestPacket, IRequest<RaidEndBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_EndBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_EndBattle;
     public int EchelonId;
     public long RaidServerId;
     public bool IsPractice;
@@ -669,639 +678,639 @@ public class RaidEndBattleRequest : Request<RaidEndBattleResponse>
     public ClanAssistUseInfo AssistUseInfo;
 }
 
-public class RaidRewardRequest : Request<RaidRewardResponse>
+public class RaidRewardRequest : RequestPacket, IRequest<RaidRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Reward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Reward;
     public long RaidServerId;
     public bool IsPractice;
 }
 
-public class RaidRewardAllRequest : Request<RaidRewardAllResponse>
+public class RaidRewardAllRequest : RequestPacket, IRequest<RaidRewardAllResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_RewardAll;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_RewardAll;
 }
 
-public class RaidShareRequest : Request<RaidShareResponse>
+public class RaidShareRequest : RequestPacket, IRequest<RaidShareResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Share;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Share;
     public long RaidServerId;
 }
 
-public class RaidSeasonRewardRequest : Request<RaidSeasonRewardResponse>
+public class RaidSeasonRewardRequest : RequestPacket, IRequest<RaidSeasonRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_SeasonReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_SeasonReward;
 }
 
-public class RaidLobbyRequest : Request<RaidLobbyResponse>
+public class RaidLobbyRequest : RequestPacket, IRequest<RaidLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Lobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Lobby;
 }
 
-public class RaidGiveUpRequest : Request<RaidGiveUpResponse>
+public class RaidGiveUpRequest : RequestPacket, IRequest<RaidGiveUpResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_GiveUp;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_GiveUp;
     public long RaidServerId;
     public bool IsPractice;
 }
 
-public class RaidOpponentListRequest : Request<RaidOpponentListResponse>
+public class RaidOpponentListRequest : RequestPacket, IRequest<RaidOpponentListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_OpponentList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_OpponentList;
     public Int64? Rank;
     public Int64? Score;
     public bool IsUpper;
     public RankingSearchType SearchType;
 }
 
-public class RaidRankingRewardRequest : Request<RaidRankingRewardResponse>
+public class RaidRankingRewardRequest : RequestPacket, IRequest<RaidRankingRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_RankingReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_RankingReward;
 }
 
-public class RaidLoginRequest : Request<RaidLoginResponse>
+public class RaidLoginRequest : RequestPacket, IRequest<RaidLoginResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Login;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Login;
 }
 
-public class RaidSweepRequest : Request<RaidSweepResponse>
+public class RaidSweepRequest : RequestPacket, IRequest<RaidSweepResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Sweep;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_Sweep;
     public long UniqueId;
     public long SweepCount;
 }
 
-public class RaidGetBestTeamRequest : Request<RaidGetBestTeamResponse>
+public class RaidGetBestTeamRequest : RequestPacket, IRequest<RaidGetBestTeamResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_GetBestTeam;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Raid_GetBestTeam;
     public long SearchAccountId;
 }
 
-public class SkipHistoryListRequest : Request<SkipHistoryListResponse>
+public class SkipHistoryListRequest : RequestPacket, IRequest<SkipHistoryListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SkipHistory_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SkipHistory_List;
 }
 
-public class SkipHistorySaveRequest : Request<SkipHistorySaveResponse>
+public class SkipHistorySaveRequest : RequestPacket, IRequest<SkipHistorySaveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SkipHistory_Save;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SkipHistory_Save;
     public SkipHistoryDB SkipHistoryDB;
 }
 
-public class ScenarioListRequest : Request<ScenarioListResponse>
+public class ScenarioListRequest : RequestPacket, IRequest<ScenarioListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_List;
 }
 
-public class ScenarioClearRequest : Request<ScenarioClearResponse>
+public class ScenarioClearRequest : RequestPacket, IRequest<ScenarioClearResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Clear;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Clear;
     public long ScenarioId;
     public BattleSummary BattleSummary;
 }
 
-public class ScenarioGroupHistoryUpdateRequest : Request<ScenarioGroupHistoryUpdateResponse>
+public class ScenarioGroupHistoryUpdateRequest : RequestPacket, IRequest<ScenarioGroupHistoryUpdateResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_GroupHistoryUpdate;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_GroupHistoryUpdate;
     public long ScenarioGroupUniqueId;
     public long ScenarioType;
 }
 
-public class ScenarioSkipRequest : Request<ScenarioSkipResponse>
+public class ScenarioSkipRequest : RequestPacket, IRequest<ScenarioSkipResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Skip;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Skip;
     public long ScriptGroupId;
     public int SkipPointScriptCount;
 }
 
-public class ScenarioSelectRequest : Request<ScenarioSelectResponse>
+public class ScenarioSelectRequest : RequestPacket, IRequest<ScenarioSelectResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Select;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Select;
     public long ScriptGroupId;
     public long ScriptSelectGroup;
 }
 
-public class ScenarioAccountStudentChangeRequest : Request<ScenarioAccountStudentChangeResponse>
+public class ScenarioAccountStudentChangeRequest : RequestPacket, IRequest<ScenarioAccountStudentChangeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_AccountStudentChange;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_AccountStudentChange;
     public long AccountStudent;
     public long AccountStudentBefore;
 }
 
-public class ScenarioLobbyStudentChangeRequest : Request<ScenarioLobbyStudentChangeResponse>
+public class ScenarioLobbyStudentChangeRequest : RequestPacket, IRequest<ScenarioLobbyStudentChangeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_LobbyStudentChange;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_LobbyStudentChange;
     public List<long> LobbyStudents;
     public List<long> LobbyStudentsBefore;
 }
 
-public class ScenarioSpecialLobbyChangeRequest : Request<ScenarioSpecialLobbyChangeResponse>
+public class ScenarioSpecialLobbyChangeRequest : RequestPacket, IRequest<ScenarioSpecialLobbyChangeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_SpecialLobbyChange;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_SpecialLobbyChange;
     public long MemoryLobbyId;
     public long MemoryLobbyIdBefore;
 }
 
-public class ScenarioEnterRequest : Request<ScenarioEnterResponse>
+public class ScenarioEnterRequest : RequestPacket, IRequest<ScenarioEnterResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Enter;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Enter;
     public long ScenarioId;
 }
 
-public class ScenarioEnterMainStageRequest : Request<ScenarioEnterMainStageResponse>
+public class ScenarioEnterMainStageRequest : RequestPacket, IRequest<ScenarioEnterMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_EnterMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_EnterMainStage;
     public long StageUniqueId;
 }
 
-public class ScenarioConfirmMainStageRequest : Request<ScenarioConfirmMainStageResponse>
+public class ScenarioConfirmMainStageRequest : RequestPacket, IRequest<ScenarioConfirmMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_ConfirmMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_ConfirmMainStage;
     public long StageUniqueId;
 }
 
-public class ScenarioDeployEchelonRequest : Request<ScenarioDeployEchelonResponse>
+public class ScenarioDeployEchelonRequest : RequestPacket, IRequest<ScenarioDeployEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_DeployEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_DeployEchelon;
     public long StageUniqueId;
     public List<HexaUnit> DeployedEchelons;
 }
 
-public class ScenarioWithdrawEchelonRequest : Request<ScenarioWithdrawEchelonResponse>
+public class ScenarioWithdrawEchelonRequest : RequestPacket, IRequest<ScenarioWithdrawEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_WithdrawEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_WithdrawEchelon;
     public long StageUniqueId;
     public List<long> WithdrawEchelonEntityId;
 }
 
-public class ScenarioMapMoveRequest : Request<ScenarioMapMoveResponse>
+public class ScenarioMapMoveRequest : RequestPacket, IRequest<ScenarioMapMoveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_MapMove;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_MapMove;
     public long StageUniqueId;
     public long EchelonEntityId;
     public HexLocation DestPosition;
 }
 
-public class ScenarioEndTurnRequest : Request<ScenarioEndTurnResponse>
+public class ScenarioEndTurnRequest : RequestPacket, IRequest<ScenarioEndTurnResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_EndTurn;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_EndTurn;
     public long StageUniqueId;
 }
 
-public class ScenarioEnterTacticRequest : Request<ScenarioEnterTacticResponse>
+public class ScenarioEnterTacticRequest : RequestPacket, IRequest<ScenarioEnterTacticResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_EnterTactic;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_EnterTactic;
     public long StageUniqueId;
     public long EchelonIndex;
     public long EnemyIndex;
 }
 
-public class ScenarioTacticResultRequest : Request<ScenarioTacticResultResponse>
+public class ScenarioTacticResultRequest : RequestPacket, IRequest<ScenarioTacticResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_TacticResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_TacticResult;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
     public SkillCardHand Hand;
     public TacticSkipSummary SkipSummary;
 }
 
-public class ScenarioRetreatRequest : Request<ScenarioRetreatResponse>
+public class ScenarioRetreatRequest : RequestPacket, IRequest<ScenarioRetreatResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Retreat;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Retreat;
     public long StageUniqueId;
 }
 
-public class ScenarioPortalRequest : Request<ScenarioPortalResponse>
+public class ScenarioPortalRequest : RequestPacket, IRequest<ScenarioPortalResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Portal;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_Portal;
     public long StageUniqueId;
     public long EchelonEntityId;
 }
 
-public class ScenarioRestartMainStageRequest : Request<ScenarioRestartMainStageResponse>
+public class ScenarioRestartMainStageRequest : RequestPacket, IRequest<ScenarioRestartMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_RestartMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_RestartMainStage;
     public long StageUniqueId;
 }
 
-public class ScenarioSkipMainStageRequest : Request<ScenarioSkipMainStageResponse>
+public class ScenarioSkipMainStageRequest : RequestPacket, IRequest<ScenarioSkipMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_SkipMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Scenario_SkipMainStage;
     public long StageUniqueId;
 }
 
-public class CafeGetInfoRequest : Request<CafeGetInfoResponse>
+public class CafeGetInfoRequest : RequestPacket, IRequest<CafeGetInfoResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_Get;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_Get;
     public long AccountServerId;
 }
 
-public class CafeAckRequest : Request<CafeAckResponse>
+public class CafeAckRequest : RequestPacket, IRequest<CafeAckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_Ack;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_Ack;
 }
 
-public class CafeListPresetRequest : Request<CafeListPresetResponse>
+public class CafeListPresetRequest : RequestPacket, IRequest<CafeListPresetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ListPreset;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ListPreset;
 }
 
-public class CafeRenamePresetRequest : Request<CafeRenamePresetResponse>
+public class CafeRenamePresetRequest : RequestPacket, IRequest<CafeRenamePresetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_RenamePreset;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_RenamePreset;
     public int SlotId;
     public string PresetName;
 }
 
-public class CafeClearPresetRequest : Request<CafeClearPresetResponse>
+public class CafeClearPresetRequest : RequestPacket, IRequest<CafeClearPresetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ClearPreset;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ClearPreset;
     public int SlotId;
 }
 
-public class CafeUpdatePresetFurnitureRequest : Request<CafeUpdatePresetFurnitureResponse>
+public class CafeUpdatePresetFurnitureRequest : RequestPacket, IRequest<CafeUpdatePresetFurnitureResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_UpdatePresetFurniture;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_UpdatePresetFurniture;
     public int SlotId;
 }
 
-public class CafeApplyPresetRequest : Request<CafeApplyPresetResponse>
+public class CafeApplyPresetRequest : RequestPacket, IRequest<CafeApplyPresetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ApplyPreset;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ApplyPreset;
     public int SlotId;
 }
 
-public class CafeRankUpRequest : Request<CafeRankUpResponse>
+public class CafeRankUpRequest : RequestPacket, IRequest<CafeRankUpResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_RankUp;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_RankUp;
     public long AccountServerId;
     public ConsumeRequestDB ConsumeRequestDB;
 }
 
-public class CafeReceiveCurrencyRequest : Request<CafeReceiveCurrencyResponse>
+public class CafeReceiveCurrencyRequest : RequestPacket, IRequest<CafeReceiveCurrencyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ReceiveCurrency;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_ReceiveCurrency;
     public long AccountServerId;
 }
 
-public class CafeGiveGiftRequest : Request<CafeGiveGiftResponse>
+public class CafeGiveGiftRequest : RequestPacket, IRequest<CafeGiveGiftResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_GiveGift;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_GiveGift;
     public long CharacterUniqueId;
     public ConsumeRequestDB ConsumeRequestDB;
 }
 
-public class CafeSummonCharacterRequest : Request<CafeSummonCharacterResponse>
+public class CafeSummonCharacterRequest : RequestPacket, IRequest<CafeSummonCharacterResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_SummonCharacter;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_SummonCharacter;
     public long CharacterServerId;
 }
 
-public class CafeTrophyHistoryRequest : Request<CafeTrophyHistoryResponse>
+public class CafeTrophyHistoryRequest : RequestPacket, IRequest<CafeTrophyHistoryResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_TrophyHistory;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Cafe_TrophyHistory;
 }
 
-public class CraftSelectNodeRequest : Request<CraftSelectNodeResponse>
+public class CraftSelectNodeRequest : RequestPacket, IRequest<CraftSelectNodeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_SelectNode;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_SelectNode;
     public long SlotId;
     public long LeafNodeIndex;
 }
 
-public class CraftUpdateNodeLevelRequest : Request<CraftUpdateNodeLevelResponse>
+public class CraftUpdateNodeLevelRequest : RequestPacket, IRequest<CraftUpdateNodeLevelResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_UpdateNodeLevel;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_UpdateNodeLevel;
     public ConsumeRequestDB ConsumeRequestDB;
     public long ConsumeGoldAmount;
     public long SlotId;
     public CraftNodeTier CraftNodeType;
 }
 
-public class CraftBeginProcessRequest : Request<CraftBeginProcessResponse>
+public class CraftBeginProcessRequest : RequestPacket, IRequest<CraftBeginProcessResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_BeginProcess;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_BeginProcess;
     public long SlotId;
 }
 
-public class CraftCompleteProcessRequest : Request<CraftCompleteProcessResponse>
+public class CraftCompleteProcessRequest : RequestPacket, IRequest<CraftCompleteProcessResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_CompleteProcess;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_CompleteProcess;
     public long SlotId;
 }
 
-public class CraftRewardRequest : Request<CraftRewardResponse>
+public class CraftRewardRequest : RequestPacket, IRequest<CraftRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_Reward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_Reward;
     public long SlotId;
 }
 
-public class CraftShiftingBeginProcessRequest : Request<CraftShiftingBeginProcessResponse>
+public class CraftShiftingBeginProcessRequest : RequestPacket, IRequest<CraftShiftingBeginProcessResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_ShiftingBeginProcess;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_ShiftingBeginProcess;
     public long SlotId;
     public long RecipeId;
     public ConsumeRequestDB ConsumeRequestDB;
 }
 
-public class CraftShiftingCompleteProcessRequest : Request<CraftShiftingCompleteProcessResponse>
+public class CraftShiftingCompleteProcessRequest : RequestPacket, IRequest<CraftShiftingCompleteProcessResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_ShiftingCompleteProcess;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_ShiftingCompleteProcess;
     public long SlotId;
 }
 
-public class CraftShiftingRewardRequest : Request<CraftShiftingRewardResponse>
+public class CraftShiftingRewardRequest : RequestPacket, IRequest<CraftShiftingRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_ShiftingReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Craft_ShiftingReward;
     public long SlotId;
 }
 
-public class ArenaEnterLobbyRequest : Request<ArenaEnterLobbyResponse>
+public class ArenaEnterLobbyRequest : RequestPacket, IRequest<ArenaEnterLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterLobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterLobby;
 }
 
-public class ArenaLoginRequest : Request<ArenaLoginResponse>
+public class ArenaLoginRequest : RequestPacket, IRequest<ArenaLoginResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_Login;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_Login;
 }
 
-public class ArenaSettingChangeRequest : Request<ArenaSettingChangeResponse>
+public class ArenaSettingChangeRequest : RequestPacket, IRequest<ArenaSettingChangeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_SettingChange;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_SettingChange;
     public long MapId;
 }
 
-public class ArenaOpponentListRequest : Request<ArenaOpponentListResponse>
+public class ArenaOpponentListRequest : RequestPacket, IRequest<ArenaOpponentListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_OpponentList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_OpponentList;
 }
 
-public class ArenaEnterBattleRequest : Request<ArenaEnterBattleResponse>
+public class ArenaEnterBattleRequest : RequestPacket, IRequest<ArenaEnterBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterBattle;
     public long OpponentAccountServerId;
     public long OpponentIndex;
 }
 
-public class ArenaEnterBattlePart1Request : Request<ArenaEnterBattlePart1Response>
+public class ArenaEnterBattlePart1Request : RequestPacket, IRequest<ArenaEnterBattlePart1Response>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterBattlePart1;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterBattlePart1;
     public long OpponentAccountServerId;
     public long OpponentRank;
     public int OpponentIndex;
 }
 
-public class ArenaEnterBattlePart2Request : Request<ArenaEnterBattlePart2Response>
+public class ArenaEnterBattlePart2Request : RequestPacket, IRequest<ArenaEnterBattlePart2Response>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterBattlePart2;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_EnterBattlePart2;
     public ArenaBattleDB ArenaBattleDB;
 }
 
-public class ArenaBattleResultRequest : Request<ArenaBattleResultResponse>
+public class ArenaBattleResultRequest : RequestPacket, IRequest<ArenaBattleResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_BattleResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_BattleResult;
     public ArenaBattleDB ArenaBattleDB;
 }
 
-public class ArenaCumulativeTimeRewardRequest : Request<ArenaCumulativeTimeRewardResponse>
+public class ArenaCumulativeTimeRewardRequest : RequestPacket, IRequest<ArenaCumulativeTimeRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_CumulativeTimeReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_CumulativeTimeReward;
 }
 
-public class ArenaDailyRewardRequest : Request<ArenaDailyRewardResponse>
+public class ArenaDailyRewardRequest : RequestPacket, IRequest<ArenaDailyRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_DailyReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_DailyReward;
 }
 
-public class ArenaRankListRequest : Request<ArenaRankListResponse>
+public class ArenaRankListRequest : RequestPacket, IRequest<ArenaRankListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_RankList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_RankList;
     public int StartIndex;
     public int Count;
 }
 
-public class ArenaHistoryRequest : Request<ArenaHistoryResponse>
+public class ArenaHistoryRequest : RequestPacket, IRequest<ArenaHistoryResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_History;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_History;
     public DateTime SearchStartDate;
     public int Count;
 }
 
-public class ArenaCheckSeasonCloseRewardRequest : Request<ArenaCheckSeasonCloseRewardResponse>
+public class ArenaCheckSeasonCloseRewardRequest : RequestPacket, IRequest<ArenaCheckSeasonCloseRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_CheckSeasonCloseReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_CheckSeasonCloseReward;
 }
 
-public class ArenaSyncEchelonSettingTimeRequest : Request<ArenaSyncEchelonSettingTimeResponse>
+public class ArenaSyncEchelonSettingTimeRequest : RequestPacket, IRequest<ArenaSyncEchelonSettingTimeResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_SyncEchelonSettingTime;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Arena_SyncEchelonSettingTime;
 }
 
-public class WeekDungeonListRequest : Request<WeekDungeonListResponse>
+public class WeekDungeonListRequest : RequestPacket, IRequest<WeekDungeonListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_List;
 }
 
-public class WeekDungeonEnterBattleRequest : Request<WeekDungeonEnterBattleResponse>
+public class WeekDungeonEnterBattleRequest : RequestPacket, IRequest<WeekDungeonEnterBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_EnterBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_EnterBattle;
     public long StageUniqueId;
     public long EchelonIndex;
 }
 
-public class WeekDungeonBattleResultRequest : Request<WeekDungeonBattleResultResponse>
+public class WeekDungeonBattleResultRequest : RequestPacket, IRequest<WeekDungeonBattleResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_BattleResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_BattleResult;
     public long StageUniqueId;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
 }
 
-public class WeekDungeonRetreatRequest : Request<WeekDungeonRetreatResponse>
+public class WeekDungeonRetreatRequest : RequestPacket, IRequest<WeekDungeonRetreatResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_Retreat;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WeekDungeon_Retreat;
     public long StageUniqueId;
 }
 
-public class AcademyGetInfoRequest : Request<AcademyGetInfoResponse>
+public class AcademyGetInfoRequest : RequestPacket, IRequest<AcademyGetInfoResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Academy_GetInfo;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Academy_GetInfo;
 }
 
-public class AcademyAttendScheduleRequest : Request<AcademyAttendScheduleResponse>
+public class AcademyAttendScheduleRequest : RequestPacket, IRequest<AcademyAttendScheduleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Academy_AttendSchedule;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Academy_AttendSchedule;
     public long ZoneId;
 }
 
-public class EventRewardIncreaseRequest : Request<EventRewardIncreaseResponse>
+public class EventRewardIncreaseRequest : RequestPacket, IRequest<EventRewardIncreaseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Event_RewardIncrease;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Event_RewardIncrease;
 }
 
-public class ContentSaveGetRequest : Request<ContentSaveGetResponse>
+public class ContentSaveGetRequest : RequestPacket, IRequest<ContentSaveGetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ContentSave_Get;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ContentSave_Get;
 }
 
-public class ContentSaveDiscardRequest : Request<ContentSaveDiscardResponse>
+public class ContentSaveDiscardRequest : RequestPacket, IRequest<ContentSaveDiscardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ContentSave_Discard;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ContentSave_Discard;
     public ContentType ContentType;
     public long StageUniqueId;
 }
 
-public class ClanLobbyRequest : Request<ClanLobbyResponse>
+public class ClanLobbyRequest : RequestPacket, IRequest<ClanLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Lobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Lobby;
 }
 
-public class ClanLoginRequest : Request<ClanLoginResponse>
+public class ClanLoginRequest : RequestPacket, IRequest<ClanLoginResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Login;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Login;
 }
 
-public class ClanSearchRequest : Request<ClanSearchResponse>
+public class ClanSearchRequest : RequestPacket, IRequest<ClanSearchResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Search;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Search;
     public string SearchString;
     public ClanJoinOption ClanJoinOption;
     public string ClanUniqueCode;
 }
 
-public class ClanCreateRequest : Request<ClanCreateResponse>
+public class ClanCreateRequest : RequestPacket, IRequest<ClanCreateResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Create;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Create;
     public string ClanNickName;
     public ClanJoinOption ClanJoinOption;
 }
 
-public class ClanMemberRequest : Request<ClanMemberResponse>
+public class ClanMemberRequest : RequestPacket, IRequest<ClanMemberResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Member;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Member;
     public long ClanDBId;
     public long MemberAccountId;
 }
 
-public class ClanApplicantRequest : Request<ClanApplicantResponse>
+public class ClanApplicantRequest : RequestPacket, IRequest<ClanApplicantResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Applicant;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Applicant;
     public long OffSet;
 }
 
-public class ClanJoinRequest : Request<ClanJoinResponse>
+public class ClanJoinRequest : RequestPacket, IRequest<ClanJoinResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Join;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Join;
     public long ClanDBId;
 }
 
-public class ClanQuitRequest : Request<ClanQuitResponse>
+public class ClanQuitRequest : RequestPacket, IRequest<ClanQuitResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Quit;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Quit;
 }
 
-public class ClanPermitRequest : Request<ClanPermitResponse>
+public class ClanPermitRequest : RequestPacket, IRequest<ClanPermitResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Permit;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Permit;
     public long ApplicantAccountId;
     public bool IsPerMit;
 }
 
-public class ClanKickRequest : Request<ClanKickResponse>
+public class ClanKickRequest : RequestPacket, IRequest<ClanKickResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Kick;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Kick;
     public long MemberAccountId;
 }
 
-public class ClanSettingRequest : Request<ClanSettingResponse>
+public class ClanSettingRequest : RequestPacket, IRequest<ClanSettingResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Setting;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Setting;
     public string ChangedClanName;
     public string ChangedNotice;
     public ClanJoinOption ClanJoinOption;
 }
 
-public class ClanConferRequest : Request<ClanConferResponse>
+public class ClanConferRequest : RequestPacket, IRequest<ClanConferResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Confer;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Confer;
     public long MemberAccountId;
     public ClanSocialGrade ConferingGrade;
 }
 
-public class ClanDismissRequest : Request<ClanDismissResponse>
+public class ClanDismissRequest : RequestPacket, IRequest<ClanDismissResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Dismiss;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Dismiss;
 }
 
-public class ClanAutoJoinRequest : Request<ClanAutoJoinResponse>
+public class ClanAutoJoinRequest : RequestPacket, IRequest<ClanAutoJoinResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_AutoJoin;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_AutoJoin;
 }
 
-public class ClanMemberListRequest : Request<ClanMemberListResponse>
+public class ClanMemberListRequest : RequestPacket, IRequest<ClanMemberListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_MemberList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_MemberList;
     public long ClanDBId;
 }
 
-public class ClanCancelApplyRequest : Request<ClanCancelApplyResponse>
+public class ClanCancelApplyRequest : RequestPacket, IRequest<ClanCancelApplyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_CancelApply;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_CancelApply;
 }
 
-public class ClanMyAssistListRequest : Request<ClanMyAssistListResponse>
+public class ClanMyAssistListRequest : RequestPacket, IRequest<ClanMyAssistListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_MyAssistList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_MyAssistList;
 }
 
-public class ClanSetAssistRequest : Request<ClanSetAssistResponse>
+public class ClanSetAssistRequest : RequestPacket, IRequest<ClanSetAssistResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_SetAssist;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_SetAssist;
     public EchelonType EchelonType;
     public int SlotNumber;
     public long CharacterDBId;
 }
 
-public class ClanChatLogRequest : Request<ClanChatLogResponse>
+public class ClanChatLogRequest : RequestPacket, IRequest<ClanChatLogResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_ChatLog;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_ChatLog;
     public string Channel;
     public DateTime FromDate;
 }
 
-public class ClanCheckRequest : Request<ClanCheckResponse>
+public class ClanCheckRequest : RequestPacket, IRequest<ClanCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Check;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_Check;
 }
 
-public class ClanAllAssistListRequest : Request<ClanAllAssistListResponse>
+public class ClanAllAssistListRequest : RequestPacket, IRequest<ClanAllAssistListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_AllAssistList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Clan_AllAssistList;
     public EchelonType EchelonType;
 }
 
-public class BillingTransactionStartByYostarRequest : Request<BillingTransactionStartByYostarResponse>
+public class BillingTransactionStartByYostarRequest : RequestPacket, IRequest<BillingTransactionStartByYostarResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_TransactionStartByYostar;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_TransactionStartByYostar;
     public long ShopCashId;
     public bool VirtualPayment;
 }
 
-public class BillingTransactionEndByYostarRequest : Request<BillingTransactionEndByYostarResponse>
+public class BillingTransactionEndByYostarRequest : RequestPacket, IRequest<BillingTransactionEndByYostarResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_TransactionEndByYostar;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_TransactionEndByYostar;
     public long PurchaseOrderId;
     public BillingTransactionEndType EndType;
 }
 
-public class BillingPurchaseListByYostarRequest : Request<BillingPurchaseListByYostarResponse>
+public class BillingPurchaseListByYostarRequest : RequestPacket, IRequest<BillingPurchaseListByYostarResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_PurchaseListByYostar;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_PurchaseListByYostar;
 }
 
-public class BillingPurchaseCashShopVerifyByNexonRequest : Request<BillingPurchaseCashShopVerifyByNexonResponse>
+public class BillingPurchaseCashShopVerifyByNexonRequest : RequestPacket, IRequest<BillingPurchaseCashShopVerifyByNexonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_PurchaseCashShopVerifyByNexon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_PurchaseCashShopVerifyByNexon;
     public long NpSN;
     public string StampToken;
     public long ShopCashId;
@@ -1310,43 +1319,43 @@ public class BillingPurchaseCashShopVerifyByNexonRequest : Request<BillingPurcha
     public long CurrencyValue;
 }
 
-public class BillingPurchaseListByNexonRequest : Request<BillingPurchaseListByNexonResponse>
+public class BillingPurchaseListByNexonRequest : RequestPacket, IRequest<BillingPurchaseListByNexonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_PurchaseListByNexon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Billing_PurchaseListByNexon;
 }
 
-public class EventContentAdventureListRequest : Request<EventContentAdventureListResponse>
+public class EventContentAdventureListRequest : RequestPacket, IRequest<EventContentAdventureListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_AdventureList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_AdventureList;
     public long EventContentId;
 }
 
-public class EventContentEnterMainStageRequest : Request<EventContentEnterMainStageResponse>
+public class EventContentEnterMainStageRequest : RequestPacket, IRequest<EventContentEnterMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterMainStage;
-    public long EventContentId;
-    public long StageUniqueId;
-}
-
-public class EventContentConfirmMainStageRequest : Request<EventContentConfirmMainStageResponse>
-{
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ConfirmMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterMainStage;
     public long EventContentId;
     public long StageUniqueId;
 }
 
-public class EventContentEnterTacticRequest : Request<EventContentEnterTacticResponse>
+public class EventContentConfirmMainStageRequest : RequestPacket, IRequest<EventContentConfirmMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterTactic;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ConfirmMainStage;
+    public long EventContentId;
+    public long StageUniqueId;
+}
+
+public class EventContentEnterTacticRequest : RequestPacket, IRequest<EventContentEnterTacticResponse>
+{
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterTactic;
     public long EventContentId;
     public long StageUniqueId;
     public long EchelonIndex;
     public long EnemyIndex;
 }
 
-public class EventContentTacticResultRequest : Request<EventContentTacticResultResponse>
+public class EventContentTacticResultRequest : RequestPacket, IRequest<EventContentTacticResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_TacticResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_TacticResult;
     public long EventContentId;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
@@ -1354,115 +1363,115 @@ public class EventContentTacticResultRequest : Request<EventContentTacticResultR
     public TacticSkipSummary SkipSummary;
 }
 
-public class EventContentEnterSubStageRequest : Request<EventContentEnterSubStageResponse>
+public class EventContentEnterSubStageRequest : RequestPacket, IRequest<EventContentEnterSubStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterSubStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterSubStage;
     public long EventContentId;
     public long StageUniqueId;
     public long LastEnterStageEchelonNumber;
 }
 
-public class EventContentSubStageResultRequest : Request<EventContentSubStageResultResponse>
+public class EventContentSubStageResultRequest : RequestPacket, IRequest<EventContentSubStageResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_SubStageResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_SubStageResult;
     public long EventContentId;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
 }
 
-public class EventContentDeployEchelonRequest : Request<EventContentDeployEchelonResponse>
+public class EventContentDeployEchelonRequest : RequestPacket, IRequest<EventContentDeployEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DeployEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DeployEchelon;
     public long EventContentId;
     public long StageUniqueId;
     public List<HexaUnit> DeployedEchelons;
 }
 
-public class EventContentWithdrawEchelonRequest : Request<EventContentWithdrawEchelonResponse>
+public class EventContentWithdrawEchelonRequest : RequestPacket, IRequest<EventContentWithdrawEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_WithdrawEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_WithdrawEchelon;
     public long EventContentId;
     public long StageUniqueId;
     public List<long> WithdrawEchelonEntityId;
 }
 
-public class EventContentMapMoveRequest : Request<EventContentMapMoveResponse>
+public class EventContentMapMoveRequest : RequestPacket, IRequest<EventContentMapMoveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_MapMove;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_MapMove;
     public long EventContentId;
     public long StageUniqueId;
     public long EchelonEntityId;
     public HexLocation DestPosition;
 }
 
-public class EventContentEndTurnRequest : Request<EventContentEndTurnResponse>
+public class EventContentEndTurnRequest : RequestPacket, IRequest<EventContentEndTurnResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EndTurn;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EndTurn;
     public long EventContentId;
     public long StageUniqueId;
 }
 
-public class EventContentRetreatRequest : Request<EventContentRetreatResponse>
+public class EventContentRetreatRequest : RequestPacket, IRequest<EventContentRetreatResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_Retreat;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_Retreat;
     public long EventContentId;
     public long StageUniqueId;
 }
 
-public class EventContentPortalRequest : Request<EventContentPortalResponse>
+public class EventContentPortalRequest : RequestPacket, IRequest<EventContentPortalResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_Portal;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_Portal;
     public long EventContentId;
     public long StageUniqueId;
     public long EchelonEntityId;
 }
 
-public class EventContentPurchasePlayCountHardStageRequest : Request<EventContentPurchasePlayCountHardStageResponse>
+public class EventContentPurchasePlayCountHardStageRequest : RequestPacket, IRequest<EventContentPurchasePlayCountHardStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_PurchasePlayCountHardStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_PurchasePlayCountHardStage;
     public long EventContentId;
     public long StageUniqueId;
 }
 
-public class EventContentShopListRequest : Request<EventContentShopListResponse>
+public class EventContentShopListRequest : RequestPacket, IRequest<EventContentShopListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopList;
     public long EventContentId;
     public List<ShopCategoryType> CategoryList;
 }
 
-public class EventContentShopRefreshRequest : Request<EventContentShopRefreshResponse>
+public class EventContentShopRefreshRequest : RequestPacket, IRequest<EventContentShopRefreshResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopRefresh;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopRefresh;
     public long EventContentId;
     public ShopCategoryType ShopCategoryType;
 }
 
-public class EventContentReceiveStageTotalRewardRequest : Request<EventContentReceiveStageTotalRewardResponse>
+public class EventContentReceiveStageTotalRewardRequest : RequestPacket, IRequest<EventContentReceiveStageTotalRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ReceiveStageTotalReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ReceiveStageTotalReward;
     public long EventContentId;
 }
 
-public class EventContentEnterMainGroundStageRequest : Request<EventContentEnterMainGroundStageResponse>
+public class EventContentEnterMainGroundStageRequest : RequestPacket, IRequest<EventContentEnterMainGroundStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterMainGroundStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterMainGroundStage;
     public long EventContentId;
     public long StageUniqueId;
     public long LastEnterStageEchelonNumber;
 }
 
-public class EventContentMainGroundStageResultRequest : Request<EventContentMainGroundStageResultResponse>
+public class EventContentMainGroundStageResultRequest : RequestPacket, IRequest<EventContentMainGroundStageResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_MainGroundStageResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_MainGroundStageResult;
     public long EventContentId;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
 }
 
-public class EventContentShopBuyMerchandiseRequest : Request<EventContentShopBuyMerchandiseResponse>
+public class EventContentShopBuyMerchandiseRequest : RequestPacket, IRequest<EventContentShopBuyMerchandiseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopBuyMerchandise;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopBuyMerchandise;
     public long EventContentId;
     public bool IsRefreshMerchandise;
     public long ShopUniqueId;
@@ -1470,339 +1479,344 @@ public class EventContentShopBuyMerchandiseRequest : Request<EventContentShopBuy
     public long PurchaseCount;
 }
 
-public class EventContentShopBuyRefreshMerchandiseRequest : Request<EventContentShopBuyRefreshMerchandiseResponse>
+public class EventContentShopBuyRefreshMerchandiseRequest : RequestPacket, IRequest<EventContentShopBuyRefreshMerchandiseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopBuyRefreshMerchandise;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ShopBuyRefreshMerchandise;
     public long EventContentId;
     public List<long> ShopUniqueIds;
 }
 
-public class EventContentSelectBuffRequest : Request<EventContentSelectBuffResponse>
+public class EventContentSelectBuffRequest : RequestPacket, IRequest<EventContentSelectBuffResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_SelectBuff;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_SelectBuff;
     public long SelectedBuffId;
 }
 
-public class EventContentBoxGachaShopListRequest : Request<EventContentBoxGachaShopListResponse>
+public class EventContentBoxGachaShopListRequest : RequestPacket, IRequest<EventContentBoxGachaShopListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_BoxGachaShopList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_BoxGachaShopList;
     public long EventContentId;
 }
 
-public class EventContentBoxGachaShopPurchaseRequest : Request<EventContentBoxGachaShopPurchaseResponse>
+public class EventContentBoxGachaShopPurchaseRequest : RequestPacket, IRequest<EventContentBoxGachaShopPurchaseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_BoxGachaShopPurchase;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_BoxGachaShopPurchase;
     public long EventContentId;
     public long PurchaseCount;
     public bool PurchaseAll;
 }
 
-public class EventContentBoxGachaShopRefreshRequest : Request<EventContentBoxGachaShopRefreshResponse>
+public class EventContentBoxGachaShopRefreshRequest : RequestPacket, IRequest<EventContentBoxGachaShopRefreshResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_BoxGachaShopRefresh;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_BoxGachaShopRefresh;
     public long EventContentId;
 }
 
-public class EventContentCollectionListRequest : Request<EventContentCollectionListResponse>
+public class EventContentCollectionListRequest : RequestPacket, IRequest<EventContentCollectionListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CollectionList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CollectionList;
     public long EventContentId;
 }
 
-public class EventContentCollectionForMissionRequest : Request<EventContentCollectionForMissionResponse>
+public class EventContentCollectionForMissionRequest : RequestPacket, IRequest<EventContentCollectionForMissionResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CollectionForMission;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CollectionForMission;
     public long EventContentId;
 }
 
-public class EventContentScenarioGroupHistoryUpdateRequest : Request<EventContentScenarioGroupHistoryUpdateResponse>
+public class EventContentScenarioGroupHistoryUpdateRequest : RequestPacket, IRequest<EventContentScenarioGroupHistoryUpdateResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ScenarioGroupHistoryUpdate;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_ScenarioGroupHistoryUpdate;
     public long ScenarioGroupUniqueId;
     public long ScenarioType;
     public long EventContentId;
 }
 
-public class EventContentCardShopListRequest : Request<EventContentCardShopListResponse>
+public class EventContentCardShopListRequest : RequestPacket, IRequest<EventContentCardShopListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CardShopList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CardShopList;
     public long EventContentId;
 }
 
-public class EventContentCardShopShuffleRequest : Request<EventContentCardShopShuffleResponse>
+public class EventContentCardShopShuffleRequest : RequestPacket, IRequest<EventContentCardShopShuffleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CardShopShuffle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CardShopShuffle;
     public long EventContentId;
 }
 
-public class EventContentCardShopPurchaseRequest : Request<EventContentCardShopPurchaseResponse>
+public class EventContentCardShopPurchaseRequest : RequestPacket, IRequest<EventContentCardShopPurchaseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CardShopPurchase;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_CardShopPurchase;
     public long EventContentId;
     public int SlotNumber;
 }
 
-public class EventContentRestartMainStageRequest : Request<EventContentRestartMainStageResponse>
+public class EventContentRestartMainStageRequest : RequestPacket, IRequest<EventContentRestartMainStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_RestartMainStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_RestartMainStage;
     public long EventContentId;
     public long StageUniqueId;
 }
 
-public class EventContentLocationGetInfoRequest : Request<EventContentLocationGetInfoResponse>
+public class EventContentLocationGetInfoRequest : RequestPacket, IRequest<EventContentLocationGetInfoResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_LocationGetInfo;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_LocationGetInfo;
     public long EventContentId;
 }
 
-public class EventContentLocationAttendScheduleRequest : Request<EventContentLocationAttendScheduleResponse>
+public class EventContentLocationAttendScheduleRequest : RequestPacket, IRequest<EventContentLocationAttendScheduleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_LocationAttendSchedule;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_LocationAttendSchedule;
     public long EventContentId;
     public long ZoneId;
     public long Count;
 }
 
-public class EventContentFortuneGachaPurchaseRequest : Request<EventContentFortuneGachaPurchaseResponse>
+public class EventContentFortuneGachaPurchaseRequest : RequestPacket, IRequest<EventContentFortuneGachaPurchaseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_FortuneGachaPurchase;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_FortuneGachaPurchase;
     public long EventContentId;
 }
 
-public class EventContentSubEventLobbyRequest : Request<EventContentSubEventLobbyResponse>
+public class EventContentSubEventLobbyRequest : RequestPacket, IRequest<EventContentSubEventLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_SubEventLobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_SubEventLobby;
     public long EventContentId;
 }
 
-public class EventContentEnterStoryStageRequest : Request<EventContentEnterStoryStageResponse>
+public class EventContentEnterStoryStageRequest : RequestPacket, IRequest<EventContentEnterStoryStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterStoryStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_EnterStoryStage;
     public long StageUniqueId;
     public long EventContentId;
 }
 
-public class EventContentStoryStageResultRequest : Request<EventContentStoryStageResultResponse>
+public class EventContentStoryStageResultRequest : RequestPacket, IRequest<EventContentStoryStageResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_StoryStageResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_StoryStageResult;
     public long EventContentId;
     public long StageUniqueId;
 }
 
-public class EventContentDiceRaceLobbyRequest : Request<EventContentDiceRaceLobbyResponse>
+public class EventContentDiceRaceLobbyRequest : RequestPacket, IRequest<EventContentDiceRaceLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DiceRaceLobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DiceRaceLobby;
     public long EventContentId;
 }
 
-public class EventContentDiceRaceRollRequest : Request<EventContentDiceRaceRollResponse>
+public class EventContentDiceRaceRollRequest : RequestPacket, IRequest<EventContentDiceRaceRollResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DiceRaceRoll;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DiceRaceRoll;
     public long EventContentId;
 }
 
-public class EventContentDiceRaceLapRewardRequest : Request<EventContentDiceRaceLapRewardResponse>
+public class EventContentDiceRaceLapRewardRequest : RequestPacket, IRequest<EventContentDiceRaceLapRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DiceRaceLapReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_DiceRaceLapReward;
     public long EventContentId;
 }
 
-public class EventContentPermanentListRequest : Request<EventContentPermanentListResponse>
+public class EventContentPermanentListRequest : RequestPacket, IRequest<EventContentPermanentListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_PermanentList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.EventContent_PermanentList;
 }
 
-public class TTSGetFileRequest : Request<TTSGetFileResponse>
+public class TTSGetFileRequest : RequestPacket, IRequest<TTSGetFileResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TTS_GetFile;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TTS_GetFile;
 }
 
-public class TTSGetKanaRequest : Request<TTSGetKanaResponse>
+public class TTSGetKanaRequest : RequestPacket, IRequest<TTSGetKanaResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TTS_GetKana;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TTS_GetKana;
     public string CallName;
 }
 
-public class ContentLogUIOpenStatisticsRequest : Request<ContentLogUIOpenStatisticsResponse>
+public class ContentLogUIOpenStatisticsRequest : RequestPacket, IRequest<ContentLogUIOpenStatisticsResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ContentLog_UIOpenStatistics;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ContentLog_UIOpenStatistics;
     public Dictionary<string, int> OpenCountPerPrefab;
 }
 
-public class MomoTalkOutLineRequest : Request<MomoTalkOutLineResponse>
+public class MomoTalkOutLineRequest : RequestPacket, IRequest<MomoTalkOutLineResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_OutLine;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_OutLine;
 }
 
-public class MomoTalkMessageListRequest : Request<MomoTalkMessageListResponse>
+public class MomoTalkMessageListRequest : RequestPacket, IRequest<MomoTalkMessageListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_MessageList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_MessageList;
     public long CharacterDBId;
 }
 
-public class MomoTalkReadRequest : Request<MomoTalkReadResponse>
+public class MomoTalkReadRequest : RequestPacket, IRequest<MomoTalkReadResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_Read;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_Read;
     public long CharacterDBId;
     public long LastReadMessageGroupId;
     public Int64? ChosenMessageId;
 }
 
-public class MomoTalkFavorScheduleRequest : Request<MomoTalkFavorScheduleResponse>
+public class MomoTalkFavorScheduleRequest : RequestPacket, IRequest<MomoTalkFavorScheduleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_FavorSchedule;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MomoTalk_FavorSchedule;
     public long ScheduleId;
 }
 
-public class ClearDeckListRequest : Request<ClearDeckListResponse>
+public class ClearDeckListRequest : RequestPacket, IRequest<ClearDeckListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ClearDeck_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ClearDeck_List;
     public long StageId;
 }
 
-public class MiniGameStageListRequest : Request<MiniGameStageListResponse>
+public class MiniGameStageListRequest : RequestPacket, IRequest<MiniGameStageListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_StageList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_StageList;
     public long EventContentId;
 }
 
-public class MiniGameEnterStageRequest : Request<MiniGameEnterStageResponse>
+public class MiniGameEnterStageRequest : RequestPacket, IRequest<MiniGameEnterStageResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_EnterStage;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_EnterStage;
     public long EventContentId;
     public long UniqueId;
 }
 
-public class MiniGameResultRequest : Request<MiniGameResultResponse>
+public class MiniGameResultRequest : RequestPacket, IRequest<MiniGameResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_Result;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_Result;
     public long EventContentId;
     public long UniqueId;
     public MinigameRhythmSummary Summary;
 }
 
-public class MiniGameMissionListRequest : Request<MiniGameMissionListResponse>
+public class MiniGameMissionListRequest : RequestPacket, IRequest<MiniGameMissionListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_MissionList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_MissionList;
     public long EventContentId;
 }
 
-public class MiniGameMissionRewardRequest : Request<MiniGameMissionRewardResponse>
+public class MiniGameMissionRewardRequest : RequestPacket, IRequest<MiniGameMissionRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_MissionReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_MissionReward;
     public long MissionUniqueId;
     public long ProgressServerId;
     public long EventContentId;
 }
 
-public class MiniGameMissionMultipleRewardRequest : Request<MiniGameMissionMultipleRewardResponse>
+public class MiniGameMissionMultipleRewardRequest : RequestPacket, IRequest<MiniGameMissionMultipleRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_MissionMultipleReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.MiniGame_MissionMultipleReward;
     public MissionCategory MissionCategory;
     public long EventContentId;
 }
 
-public class NotificationLobbyCheckRequest : Request<NotificationLobbyCheckResponse>
+public class NotificationLobbyCheckRequest : RequestPacket, IRequest<NotificationLobbyCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Notification_LobbyCheck;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Notification_LobbyCheck;
 }
 
-public class ProofTokenRequestQuestionRequest : Request<ProofTokenRequestQuestionResponse>
+public class NotificationEventContentReddotRequest : RequestPacket, IRequest<NotificationEventContentReddotResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ProofToken_RequestQuestion;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Notification_EventContentReddotCheck;
 }
 
-public class ProofTokenSubmitRequest : Request<ProofTokenSubmitResponse>
+public class ProofTokenRequestQuestionRequest : RequestPacket, IRequest<ProofTokenRequestQuestionResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ProofToken_Submit;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ProofToken_RequestQuestion;
+}
+
+public class ProofTokenSubmitRequest : RequestPacket, IRequest<ProofTokenSubmitResponse>
+{
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ProofToken_Submit;
     public long Answer;
 }
 
-public class SchoolDungeonListRequest : Request<SchoolDungeonListResponse>
+public class SchoolDungeonListRequest : RequestPacket, IRequest<SchoolDungeonListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_List;
 }
 
-public class SchoolDungeonEnterBattleRequest : Request<SchoolDungeonEnterBattleResponse>
+public class SchoolDungeonEnterBattleRequest : RequestPacket, IRequest<SchoolDungeonEnterBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_EnterBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_EnterBattle;
     public long StageUniqueId;
 }
 
-public class SchoolDungeonBattleResultRequest : Request<SchoolDungeonBattleResultResponse>
+public class SchoolDungeonBattleResultRequest : RequestPacket, IRequest<SchoolDungeonBattleResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_BattleResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_BattleResult;
     public long StageUniqueId;
     public bool PassCheckCharacter;
     public BattleSummary Summary;
 }
 
-public class SchoolDungeonRetreatRequest : Request<SchoolDungeonRetreatResponse>
+public class SchoolDungeonRetreatRequest : RequestPacket, IRequest<SchoolDungeonRetreatResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_Retreat;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.SchoolDungeon_Retreat;
     public long StageUniqueId;
 }
 
-public class TimeAttackDungeonLobbyRequest : Request<TimeAttackDungeonLobbyResponse>
+public class TimeAttackDungeonLobbyRequest : RequestPacket, IRequest<TimeAttackDungeonLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_Lobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_Lobby;
 }
 
-public class TimeAttackDungeonCreateBattleRequest : Request<TimeAttackDungeonCreateBattleResponse>
+public class TimeAttackDungeonCreateBattleRequest : RequestPacket, IRequest<TimeAttackDungeonCreateBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_CreateBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_CreateBattle;
     public bool IsPractice;
 }
 
-public class TimeAttackDungeonEnterBattleRequest : Request<TimeAttackDungeonEnterBattleResponse>
+public class TimeAttackDungeonEnterBattleRequest : RequestPacket, IRequest<TimeAttackDungeonEnterBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_EnterBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_EnterBattle;
     public long RoomId;
     public ClanAssistUseInfo AssistUseInfo;
 }
 
-public class TimeAttackDungeonEndBattleRequest : Request<TimeAttackDungeonEndBattleResponse>
+public class TimeAttackDungeonEndBattleRequest : RequestPacket, IRequest<TimeAttackDungeonEndBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_EndBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_EndBattle;
     public int EchelonId;
     public long RoomId;
     public BattleSummary Summary;
     public ClanAssistUseInfo AssistUseInfo;
 }
 
-public class TimeAttackDungeonSweepRequest : Request<TimeAttackDungeonSweepResponse>
+public class TimeAttackDungeonSweepRequest : RequestPacket, IRequest<TimeAttackDungeonSweepResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_Sweep;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_Sweep;
     public long SweepCount;
 }
 
-public class TimeAttackDungeonGiveUpRequest : Request<TimeAttackDungeonGiveUpResponse>
+public class TimeAttackDungeonGiveUpRequest : RequestPacket, IRequest<TimeAttackDungeonGiveUpResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_GiveUp;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_GiveUp;
     public long RoomId;
 }
 
-public class TimeAttackDungeonLoginRequest : Request<TimeAttackDungeonLoginResponse>
+public class TimeAttackDungeonLoginRequest : RequestPacket, IRequest<TimeAttackDungeonLoginResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_Login;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.TimeAttackDungeon_Login;
 }
 
-public class WorldRaidLobbyRequest : Request<WorldRaidLobbyResponse>
+public class WorldRaidLobbyRequest : RequestPacket, IRequest<WorldRaidLobbyResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_Lobby;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_Lobby;
     public long SeasonId;
 }
 
-public class WorldRaidBossListRequest : Request<WorldRaidBossListResponse>
+public class WorldRaidBossListRequest : RequestPacket, IRequest<WorldRaidBossListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_BossList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_BossList;
     public long SeasonId;
     public bool RequestOnlyWorldBossData;
 }
 
-public class WorldRaidEnterBattleRequest : Request<WorldRaidEnterBattleResponse>
+public class WorldRaidEnterBattleRequest : RequestPacket, IRequest<WorldRaidEnterBattleResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_EnterBattle;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_EnterBattle;
     public long SeasonId;
     public long GroupId;
     public long UniqueId;
@@ -1812,9 +1826,9 @@ public class WorldRaidEnterBattleRequest : Request<WorldRaidEnterBattleResponse>
     public List<ClanAssistUseInfo> AssistUseInfos;
 }
 
-public class WorldRaidBattleResultRequest : Request<WorldRaidBattleResultResponse>
+public class WorldRaidBattleResultRequest : RequestPacket, IRequest<WorldRaidBattleResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_BattleResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_BattleResult;
     public long SeasonId;
     public long GroupId;
     public long UniqueId;
@@ -1825,34 +1839,34 @@ public class WorldRaidBattleResultRequest : Request<WorldRaidBattleResultRespons
     public List<ClanAssistUseInfo> AssistUseInfos;
 }
 
-public class WorldRaidReceiveRewardRequest : Request<WorldRaidReceiveRewardResponse>
+public class WorldRaidReceiveRewardRequest : RequestPacket, IRequest<WorldRaidReceiveRewardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_ReceiveReward;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.WorldRaid_ReceiveReward;
     public long SeasonId;
 }
 
-public class ResetableContentGetRequest : Request<ResetableContentGetResponse>
+public class ResetableContentGetRequest : RequestPacket, IRequest<ResetableContentGetResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ResetableContent_Get;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.ResetableContent_Get;
 }
 
-public class ConquestGetInfoRequest : Request<ConquestGetInfoResponse>
+public class ConquestGetInfoRequest : RequestPacket, IRequest<ConquestGetInfoResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_GetInfo;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_GetInfo;
     public long EventContentId;
 }
 
-public class ConquestConquerRequest : Request<ConquestConquerResponse>
+public class ConquestConquerRequest : RequestPacket, IRequest<ConquestConquerResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_Conquer;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_Conquer;
     public long EventContentId;
     public StageDifficulty Difficulty;
     public long TileUniqueId;
 }
 
-public class ConquestConquerWithBattleStartRequest : Request<ConquestConquerWithBattleStartResponse>
+public class ConquestConquerWithBattleStartRequest : RequestPacket, IRequest<ConquestConquerWithBattleStartResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_ConquerWithBattleStart;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_ConquerWithBattleStart;
     public long EventContentId;
     public StageDifficulty Difficulty;
     public long TileUniqueId;
@@ -1860,95 +1874,95 @@ public class ConquestConquerWithBattleStartRequest : Request<ConquestConquerWith
     public ClanAssistUseInfo ClanAssistUseInfo;
 }
 
-public class ConquestConquerWithBattleResultRequest : Request<ConquestConquerWithBattleResultResponse>
+public class ConquestConquerWithBattleResultRequest : RequestPacket, IRequest<ConquestConquerWithBattleResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_ConquerWithBattleResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_ConquerWithBattleResult;
     public long EventContentId;
     public StageDifficulty Difficulty;
     public long TileUniqueId;
     public BattleSummary BattleSummary;
 }
 
-public class ConquestManageBaseRequest : Request<ConquestManageBaseResponse>
+public class ConquestManageBaseRequest : RequestPacket, IRequest<ConquestManageBaseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_ManageBase;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_ManageBase;
     public long EventContentId;
     public StageDifficulty Difficulty;
     public long TileUniqueId;
     public int ManageCount;
 }
 
-public class ConquestUpgradeBaseRequest : Request<ConquestUpgradeBaseResponse>
+public class ConquestUpgradeBaseRequest : RequestPacket, IRequest<ConquestUpgradeBaseResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_UpgradeBase;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_UpgradeBase;
     public long EventContentId;
     public StageDifficulty Difficulty;
     public long TileUniqueId;
 }
 
-public class ConquestTakeEventObjectRequest : Request<ConquestTakeEventObjectResponse>
+public class ConquestTakeEventObjectRequest : RequestPacket, IRequest<ConquestTakeEventObjectResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_TakeEventObject;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_TakeEventObject;
     public long EventContentId;
     public long ConquestObjectDBId;
 }
 
-public class ConquestEventObjectBattleStartRequest : Request<ConquestEventObjectBattleStartResponse>
+public class ConquestEventObjectBattleStartRequest : RequestPacket, IRequest<ConquestEventObjectBattleStartResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_EventObjectBattleStart;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_EventObjectBattleStart;
     public long EventContentId;
     public long ConquestObjectDBId;
     public long EchelonNumber;
     public ClanAssistUseInfo ClanAssistUseInfo;
 }
 
-public class ConquestEventObjectBattleResultRequest : Request<ConquestEventObjectBattleResultResponse>
+public class ConquestEventObjectBattleResultRequest : RequestPacket, IRequest<ConquestEventObjectBattleResultResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_EventObjectBattleResult;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_EventObjectBattleResult;
     public long EventContentId;
     public long ConquestObjectDBId;
     public BattleSummary BattleSummary;
 }
 
-public class ConquestNormalizeEchelonRequest : Request<ConquestNormalizeEchelonResponse>
+public class ConquestNormalizeEchelonRequest : RequestPacket, IRequest<ConquestNormalizeEchelonResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_NormalizeEchelon;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_NormalizeEchelon;
     public long EventContentId;
     public StageDifficulty Difficulty;
     public long TileUniqueId;
 }
 
-public class ConquestCheckRequest : Request<ConquestCheckResponse>
+public class ConquestCheckRequest : RequestPacket, IRequest<ConquestCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_Check;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Conquest_Check;
     public long EventContentId;
 }
 
-public class FriendListRequest : Request<FriendListResponse>
+public class FriendListRequest : RequestPacket, IRequest<FriendListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_List;
 }
 
-public class FriendRemoveRequest : Request<FriendRemoveResponse>
+public class FriendRemoveRequest : RequestPacket, IRequest<FriendRemoveResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_Remove;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_Remove;
     public long TargetAccountId;
 }
 
-public class FriendGetFriendDetailedInfoRequest : Request<FriendGetFriendDetailedInfoResponse>
+public class FriendGetFriendDetailedInfoRequest : RequestPacket, IRequest<FriendGetFriendDetailedInfoResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_GetFriendDetailedInfo;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_GetFriendDetailedInfo;
     public long FriendAccountId;
 }
 
-public class FriendGetIdCardRequest : Request<FriendGetIdCardResponse>
+public class FriendGetIdCardRequest : RequestPacket, IRequest<FriendGetIdCardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_GetIdCard;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_GetIdCard;
 }
 
-public class FriendSetIdCardRequest : Request<FriendSetIdCardResponse>
+public class FriendSetIdCardRequest : RequestPacket, IRequest<FriendSetIdCardResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_SetIdCard;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_SetIdCard;
     public string Comment;
     public long RepresentCharacterUniqueId;
     public bool SearchPermission;
@@ -1960,63 +1974,63 @@ public class FriendSetIdCardRequest : Request<FriendSetIdCardResponse>
     public long BackgroundId;
 }
 
-public class FriendSearchRequest : Request<FriendSearchResponse>
+public class FriendSearchRequest : RequestPacket, IRequest<FriendSearchResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_Search;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_Search;
     public string FriendCode;
     public FriendSearchLevelOption LevelOption;
 }
 
-public class FriendSendFriendRequestRequest : Request<FriendSendFriendRequestResponse>
+public class FriendSendFriendRequestRequest : RequestPacket, IRequest<FriendSendFriendRequestResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_SendFriendRequest;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_SendFriendRequest;
     public long TargetAccountId;
 }
 
-public class FriendAcceptFriendRequestRequest : Request<FriendAcceptFriendRequestResponse>
+public class FriendAcceptFriendRequestRequest : RequestPacket, IRequest<FriendAcceptFriendRequestResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_AcceptFriendRequest;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_AcceptFriendRequest;
     public long TargetAccountId;
 }
 
-public class FriendDeclineFriendRequestRequest : Request<FriendDeclineFriendRequestResponse>
+public class FriendDeclineFriendRequestRequest : RequestPacket, IRequest<FriendDeclineFriendRequestResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_DeclineFriendRequest;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_DeclineFriendRequest;
     public long TargetAccountId;
 }
 
-public class FriendCancelFriendRequestRequest : Request<FriendCancelFriendRequestResponse>
+public class FriendCancelFriendRequestRequest : RequestPacket, IRequest<FriendCancelFriendRequestResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_CancelFriendRequest;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_CancelFriendRequest;
     public long TargetAccountId;
 }
 
-public class FriendCheckRequest : Request<FriendCheckResponse>
+public class FriendCheckRequest : RequestPacket, IRequest<FriendCheckResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_Check;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Friend_Check;
 }
 
-public class CharacterGearListRequest : Request<CharacterGearListResponse>
+public class CharacterGearListRequest : RequestPacket, IRequest<CharacterGearListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CharacterGear_List;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CharacterGear_List;
 }
 
-public class CharacterGearUnlockRequest : Request<CharacterGearUnlockResponse>
+public class CharacterGearUnlockRequest : RequestPacket, IRequest<CharacterGearUnlockResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CharacterGear_Unlock;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CharacterGear_Unlock;
     public long CharacterServerId;
     public int SlotIndex;
 }
 
-public class CharacterGearTierUpRequest : Request<CharacterGearTierUpResponse>
+public class CharacterGearTierUpRequest : RequestPacket, IRequest<CharacterGearTierUpResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CharacterGear_TierUp;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.CharacterGear_TierUp;
     public long GearServerId;
 }
 
-public class QueuingGetTicketRequest : Request<QueuingGetTicketResponse>
+public class QueuingGetTicketRequest : RequestPacket, IRequest<QueuingGetTicketResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Queuing_GetTicket;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Queuing_GetTicket;
     public long NpSN;
     public string NpToken;
     public string Npacode;
@@ -2029,19 +2043,19 @@ public class QueuingGetTicketRequest : Request<QueuingGetTicketResponse>
     public string ClientVersion;
 }
 
-public class ManagementBannerListRequest : Request<ManagementBannerListResponse>
+public class ManagementBannerListRequest : RequestPacket, IRequest<ManagementBannerListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Management_BannerList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Management_BannerList;
 }
 
-public class ManagementContentsLockListRequest : Request<ManagementContentsLockListResponse>
+public class ManagementContentsLockListRequest : RequestPacket, IRequest<ManagementContentsLockListResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Management_ContentsLockList;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Management_ContentsLockList;
 }
 
-public class CommonCheatRequest : Request<CommonCheatResponse>
+public class CommonCheatRequest : RequestPacket, IRequest<CommonCheatResponse>
 {
-    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Common_Cheat;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Common_Cheat;
     public string Cheat;
     public List<CheatCharacterCustomPreset> CharacterCustomPreset;
 }

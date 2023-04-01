@@ -53,6 +53,8 @@ namespace BlueArchiveAPI
 
         public static string GetProtocolHash(Protocol protocol)
         {
+            if (protocol == Protocol.Campaign_ConfirmTutorialStage)
+                return "RL4MMUF2L7GQFJ7HNX2TP5CZJY";
             var b = Encoding.Unicode.GetBytes(protocol.ToString());
             using var md5 = MD5.Create();
             return Base32Encode(md5.ComputeHash(b));
@@ -168,9 +170,15 @@ namespace BlueArchiveAPI
             proto = result.protocol;
             return JToken.Parse(result.packet);
         }
-        public static byte[] EncryptResponsePacket(JToken packet, Protocol proto)
+        
+        private static readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
-            var spacket = new ServerPacket(proto, JsonConvert.SerializeObject(packet));
+            NullValueHandling = NullValueHandling.Ignore
+        };
+        
+        public static byte[] EncryptResponsePacket(object packet, Protocol proto)
+        {
+            var spacket = new ServerPacket(proto, JsonConvert.SerializeObject(packet, Formatting.None, settings));
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(spacket));
 
         }

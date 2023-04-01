@@ -1,6 +1,23 @@
 namespace BlueArchiveAPI.NetworkModels;
 using System.Collections.ObjectModel;
 
+public class RequestPacket : BasePacket
+{
+    public int ClientUpTime;
+    public bool Resendable;
+    public long Hash;
+    public DateTime? ModifiedServerTime__DebugOnly;
+}
+
+public class ResponsePacket : BasePacket
+{
+    public long ServerTimeTicks;
+    public ServerNotificationFlag ServerNotification;
+    public List<MissionProgressDB> MissionProgressDBs;
+    public Dictionary<long, List<MissionProgressDB>> EventMissionProgressDBDict;
+    public Dictionary<OpenConditionContent, OpenConditionLockReason> StaticOpenConditions;
+}
+
 public class SessionDB
 {
     public SessionKey SessionKey;
@@ -488,15 +505,6 @@ public enum Protocol
     Management_ContentsLockList = 100001,
     Common_Cheat = -9999,
     Error = -1,
-}
-
-public class ResponsePacket : BasePacket
-{
-    public long ServerTimeTicks;
-    public ServerNotificationFlag ServerNotification;
-    public List<MissionProgressDB> MissionProgressDBs;
-    public Dictionary<long, List<MissionProgressDB>> EventMissionProgressDBDict;
-    public Dictionary<OpenConditionContent, OpenConditionLockReason> StaticOpenConditions;
 }
 
 public class EquipmentItemListResponse : ResponsePacket
@@ -1401,7 +1409,6 @@ public class EventRewardIncreaseDB
 
 public class ContentSaveDB
 {
-    public ContentType ContentType;
     public long AccountServerId;
     public DateTime CreateTime;
     public long StageUniqueId;
@@ -1772,6 +1779,16 @@ public class MinigameRhythmSummary
     public bool IsAutoPlay;
 }
 
+public enum NotificationEventReddot
+{
+    StagePointReward = 0,
+    MissionComplete = 1,
+    MiniGameMissionComplete = 2,
+    WorldRaidReward = 3,
+    ConquestCalculateReward = 4,
+    DiceRaceLapReward = 5,
+}
+
 public class SchoolDungeonStageHistoryDB
 {
     public long AccountServerId;
@@ -1976,6 +1993,40 @@ public enum CheatFlags
     Mission = 2,
 }
 
+public class BasePacket
+{
+    public SessionKey SessionKey;
+    public long AccountId;
+}
+
+public enum ServerNotificationFlag
+{
+    None = 0,
+    NewMailArrived = 4,
+    HasUnreadMail = 8,
+    NewToastDetected = 16,
+    CanReceiveArenaDailyReward = 32,
+    CanReceiveRaidReward = 64,
+    ServerMaintenance = 256,
+    CannotReceiveMail = 512,
+    InventoryFullRewardMail = 1024,
+    CanReceiveClanAttendanceReward = 2048,
+    HasClanApplicant = 4096,
+    HasFriendRequest = 8192,
+    CheckConquest = 16384,
+}
+
+public enum OpenConditionLockReason
+{
+    None = 0,
+    Level = 1,
+    StageClear = 2,
+    Time = 4,
+    Day = 8,
+    CafeRank = 16,
+    ScenarioModeClear = 32,
+}
+
 public class SessionKey
 {
     public long AccountServerId;
@@ -2094,7 +2145,6 @@ public enum CurrencyTypes
 
 public class ParcelBase
 {
-    public ParcelType Type;
 }
 
 public enum ParcelType
@@ -2120,41 +2170,6 @@ public enum ParcelType
     ProductMonthly = 18,
     CharacterGear = 19,
     IdCardBackground = 20,
-}
-
-public class BasePacket
-{
-    public Protocol Protocol;
-    public SessionKey SessionKey;
-    public long AccountId;
-}
-
-public enum ServerNotificationFlag
-{
-    None = 0,
-    NewMailArrived = 4,
-    HasUnreadMail = 8,
-    NewToastDetected = 16,
-    CanReceiveArenaDailyReward = 32,
-    CanReceiveRaidReward = 64,
-    ServerMaintenance = 256,
-    CannotReceiveMail = 512,
-    InventoryFullRewardMail = 1024,
-    CanReceiveClanAttendanceReward = 2048,
-    HasClanApplicant = 4096,
-    HasFriendRequest = 8192,
-    CheckConquest = 16384,
-}
-
-public enum OpenConditionLockReason
-{
-    None = 0,
-    Level = 1,
-    StageClear = 2,
-    Time = 4,
-    Day = 8,
-    CafeRank = 16,
-    ScenarioModeClear = 32,
 }
 
 public class FurnitureDB : ConsumableItemBaseDB
@@ -2731,7 +2746,6 @@ public class TimeAttackDungeonBattleHistoryDB
 
 public class ContentsValueChangeDB
 {
-    public ContentsChangeType ContentsChangeType;
 }
 
 public enum ContentsChangeType
@@ -3306,6 +3320,7 @@ public static class ProtoDefine
     {
         [Protocol.System_Version] = typeof(SystemVersionRequest),
         [Protocol.Session_Info] = typeof(SessionInfoRequest),
+        [Protocol.NetworkTime_Sync] = typeof(NetworkTimeSyncRequest),
         [Protocol.Audit_GachaStatistics] = typeof(AuditGachaStatisticsRequest),
         [Protocol.Account_Create] = typeof(AccountCreateRequest),
         [Protocol.Account_Nickname] = typeof(AccountNicknameRequest),
@@ -3563,6 +3578,7 @@ public static class ProtoDefine
         [Protocol.MiniGame_MissionReward] = typeof(MiniGameMissionRewardRequest),
         [Protocol.MiniGame_MissionMultipleReward] = typeof(MiniGameMissionMultipleRewardRequest),
         [Protocol.Notification_LobbyCheck] = typeof(NotificationLobbyCheckRequest),
+        [Protocol.Notification_EventContentReddotCheck] = typeof(NotificationEventContentReddotRequest),
         [Protocol.ProofToken_RequestQuestion] = typeof(ProofTokenRequestQuestionRequest),
         [Protocol.ProofToken_Submit] = typeof(ProofTokenSubmitRequest),
         [Protocol.SchoolDungeon_List] = typeof(SchoolDungeonListRequest),
@@ -3616,6 +3632,7 @@ public static class ProtoDefine
     {
         [Protocol.System_Version] = typeof(SystemVersionResponse),
         [Protocol.Session_Info] = typeof(SessionInfoResponse),
+        [Protocol.NetworkTime_SyncReply] = typeof(NetworkTimeSyncResponse),
         [Protocol.Audit_GachaStatistics] = typeof(AuditGachaStatisticsResponse),
         [Protocol.Account_Create] = typeof(AccountCreateResponse),
         [Protocol.Account_Nickname] = typeof(AccountNicknameResponse),
@@ -3873,6 +3890,7 @@ public static class ProtoDefine
         [Protocol.MiniGame_MissionReward] = typeof(MiniGameMissionRewardResponse),
         [Protocol.MiniGame_MissionMultipleReward] = typeof(MiniGameMissionMultipleRewardResponse),
         [Protocol.Notification_LobbyCheck] = typeof(NotificationLobbyCheckResponse),
+        [Protocol.Notification_EventContentReddotCheck] = typeof(NotificationEventContentReddotResponse),
         [Protocol.ProofToken_RequestQuestion] = typeof(ProofTokenRequestQuestionResponse),
         [Protocol.ProofToken_Submit] = typeof(ProofTokenSubmitResponse),
         [Protocol.SchoolDungeon_List] = typeof(SchoolDungeonListResponse),

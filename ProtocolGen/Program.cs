@@ -137,7 +137,7 @@ internal class Program
 
         foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
-            if (prop.GetMethod.IsPrivate)
+            if (prop.GetMethod.IsPrivate || prop.GetMethod.IsAbstract)
             {
                 if (prop.GetCustomAttribute<JsonPropertyAttribute>() == null)
                     continue;
@@ -170,9 +170,18 @@ internal class Program
         if (writtenType.Contains(type)) yield break;
         writtenType.Add(type);
 
-        sw.WriteLine($"public class {type.Name} : {baseClass}");
+        var @base = $" : ";
+        if (type.BaseType != null && type.BaseType != typeof(object) && type.BaseType != typeof(ValueType))
+        {
+            var @ref = new Ref<string>();
+            foreach (var t in TypeGetName(type.BaseType, @ref))
+                yield return t;
+            @base = $" : {@ref.t}, ".Replace("KeyedCollection", "Dictionary");
+        }
+
+        sw.WriteLine($"public class {type.Name}{@base}{baseClass}");
         sw.WriteLine("{");
-        sw.WriteLine($"    public override Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.{proto};");
+        sw.WriteLine($"    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.{proto};");
 
         foreach (var prop in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
@@ -245,6 +254,7 @@ internal class Program
             [Protocol.Queuing_GetTicketGL] = "QueueingGetTicket",
             [Protocol.Account_VerifyCheckAdultAgree] = "AccountVerifyAdultCheck",
             [Protocol.Cafe_Get] = "CafeGetInfo",
+            [Protocol.Notification_EventContentReddotCheck] = "NotificationEventContentReddot",
         };
 
         var reqdict = new Dictionary<Protocol, Type>();
@@ -254,7 +264,7 @@ internal class Program
         foreach (var proto in protocols)
         {
             var name = protoMap.TryGetValue(proto, out var val) ? val : proto.ToString().Replace("_", "");
-            if (proto == Protocol.NetworkTime_Sync) continue;
+            if (proto == Protocol.NetworkTime_SyncReply) continue;
             
             var requestType = sourceAsm.GetType($"MX.NetworkProtocol.{name}Request");
             var responseType = sourceAsm.GetType($"MX.NetworkProtocol.{name}Response");
@@ -268,12 +278,12 @@ internal class Program
             reqdict.Add(proto, requestType);
             respdict.Add(proto == Protocol.NetworkTime_Sync ? Protocol.NetworkTime_SyncReply : proto, responseType);
 
-            foreach (var @class in WriteClass(requestWriter, $"Request<{name}Response>", proto, requestType))
+            foreach (var @class in WriteClass(requestWriter, $"IRequest<{name}Response>", proto, requestType))
                 commonTypes.Enqueue(@class);
-            foreach (var @class in WriteClass(responseWriter, $"Response<{name}Request>", proto == Protocol.NetworkTime_Sync ? Protocol.NetworkTime_SyncReply : proto, responseType))
+            foreach (var @class in WriteClass(responseWriter, $"IResponse<{name}Request>", proto == Protocol.NetworkTime_Sync ? Protocol.NetworkTime_SyncReply : proto, responseType))
                 commonTypes.Enqueue(@class);
         }
-
+        
         while (commonTypes.TryDequeue(out var type))
             if (type != null)
                 foreach (var @class in WriteClass(commonWriter, type))

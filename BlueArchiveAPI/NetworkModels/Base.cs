@@ -7,29 +7,24 @@ using System.Xml.Linq;
 
 namespace BlueArchiveAPI.NetworkModels
 {
-    public abstract class Packet
+    public interface IPacket
     {
-        public abstract Protocol Protocol { get; } 
+        Protocol Protocol { get; }
     }
-    
-    public abstract class Request<T> : Packet where T : Packet
+
+    public interface IRequest : IPacket
     {
-        public int ClientUpTime;
-
-        public bool Resendable;
-
-        public long Hash;
-
-        public DateTime? ModifiedServerTime__DebugOnly;
     }
-    
-    public abstract class Response<T> : Packet where T : Packet
+
+    public interface IResponse : IPacket
     {
-        public long ServerTimeTicks;
-        public ServerNotificationFlag ServerNotification;
-        public List<MissionProgressDB> MissionProgressDBs;
-        public Dictionary<long, List<MissionProgressDB>> EventMissionProgressDBDict;
-        public Dictionary<OpenConditionContent, OpenConditionLockReason> StaticOpenConditions;
+    }
+    public interface IRequest<T> : IRequest where T : IResponse
+    {
+    }
+
+    public interface IResponse<T> : IResponse where T : IRequest
+    {
     }
 
     public class TypedJsonWrapper<T> where T : class
