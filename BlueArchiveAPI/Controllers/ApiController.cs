@@ -61,6 +61,22 @@ namespace BlueArchiveAPI.Controllers
             var respData = Utils.DecryptResponsePacket(content, out proto);
             
             _logger.LogInformation($"{respData}");
+
+            if (proto == Protocol.Account_LoginSync)
+            {
+                var respObj = respData.ToObject<AccountLoginSyncResponse>();
+                foreach (var character in respObj.CharacterListResponse.CharacterDBs)
+                {
+                    character.ExSkillLevel = 100;
+                    character.ExtraPassiveSkillLevel = 100;
+                    character.LeaderSkillLevel = 100;
+                    character.PublicSkillLevel = 100;
+                    character.ExtraPassiveSkillLevel = 100;
+                    character.Level = 100;
+                }
+
+                respData = JToken.FromObject(respObj);
+            }
             
             return File(Utils.EncryptResponsePacket(respData, proto), "application/json; charset=utf-8");
         }
