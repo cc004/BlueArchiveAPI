@@ -1,3 +1,4 @@
+using BlueArchiveAPI.Handlers;
 using BlueArchiveAPI.Models;
 using BlueArchiveAPI.NetworkModels;
 using Microsoft.AspNetCore.Mvc;
@@ -50,11 +51,9 @@ namespace BlueArchiveAPI.Controllers
             _logger.LogInformation($"gateway: {protocol}@{path1}/{path2}");
 
             var proto = ResolveProtocolOrRaise($"{path1}/{path2}", protocol);
-            var reqData = Utils.DecryptRequestPacket(packet);
 
-            _logger.LogInformation($"gateway: {proto}");
-            _logger.LogInformation($"{reqData}");
-
+            var handler = HandlerManager.GetHandler(proto);
+            /*
             var form = new MultipartFormDataContent();
             form.Add(new StringContent(Utils.GetProtocolHash(proto), Encoding.UTF8, "text/plain"), "protocol");
             form.Add(new StringContent(encode.ToString(), Encoding.UTF8, "text/plain"), "encode");
@@ -63,10 +62,10 @@ namespace BlueArchiveAPI.Controllers
             var resp = await _client.PostAsync($"https://nxm-tw-bagl.nexon.com:5100/api/{path1}/{path2}", form);
             var content = await resp.Content.ReadAsByteArrayAsync();
             var respData = Utils.DecryptResponsePacket(content, out proto);
-            
             _logger.LogInformation($"{respData}");
-
-            return File(Utils.EncryptResponsePacket(respData, proto), "application/json; charset=utf-8");
+            
+            */
+            return File(await handler.Handle(packet), "application/json; charset=utf-8");
         }
         
         [HttpPost("api/{path1}/{path2}")]
@@ -76,12 +75,16 @@ namespace BlueArchiveAPI.Controllers
             _logger.LogInformation($"api: {protocol}@{path1}/{path2}");
             
             var proto = ResolveProtocolOrRaise($"{path1}/{path2}", protocol);
-            var reqData = Utils.DecryptRequestPacket(packet);
 
+            var handler = HandlerManager.GetHandler(proto);
 
-            _logger.LogInformation($"api: {proto}");
-            _logger.LogInformation($"{reqData}");
+            if (handler == null)
+            {
+                _logger.LogWarning($"api: {protocol}@{path1}/{path2} not implemented!");
+                return NotFound();
+            }
 
+            /*
             var reqObj = reqData.ToObject(ProtoDefine.requestType[proto]);
 
             if (proto == Protocol.Account_LoginSync)
@@ -167,9 +170,9 @@ namespace BlueArchiveAPI.Controllers
             }
             
             _logger.LogInformation($"{JsonConvert.SerializeObject(respData, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore})}");
+            */
 
-
-            return File(Utils.EncryptResponsePacket(respData, proto), "application/json; charset=utf-8");
+            return File(await handler.Handle(packet), "application/json; charset=utf-8");
         }
     }
 }

@@ -2030,7 +2030,7 @@ public class CharacterGearTierUpRequest : RequestPacket, IRequest<CharacterGearT
 
 public class QueuingGetTicketRequest : RequestPacket, IRequest<QueuingGetTicketResponse>
 {
-    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Queuing_GetTicket;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Queuing_GetTicketGL;
     public long NpSN;
     public string NpToken;
     public string Npacode;

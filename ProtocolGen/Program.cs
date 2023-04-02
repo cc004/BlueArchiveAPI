@@ -261,10 +261,12 @@ internal class Program
 
         var respdict = new Dictionary<Protocol, Type>();
 
-        foreach (var proto in protocols)
+        foreach (var proto2 in protocols)
         {
+            var proto = proto2;
             var name = protoMap.TryGetValue(proto, out var val) ? val : proto.ToString().Replace("_", "");
             if (proto == Protocol.NetworkTime_SyncReply) continue;
+            if (proto == Protocol.Queuing_GetTicket) proto = Protocol.Queuing_GetTicketGL;
             
             var requestType = sourceAsm.GetType($"MX.NetworkProtocol.{name}Request");
             var responseType = sourceAsm.GetType($"MX.NetworkProtocol.{name}Response");

@@ -139,16 +139,16 @@ namespace BlueArchiveAPI
             return ms.ToArray();
         }
 
-        public static JToken DecryptRequestPacket(string packet)
+        public static string DecryptRequestPacket(string packet)
         {
             var decoded = Convert.FromBase64String(packet);
             var packetSize = BitConverter.ToInt32(decoded);
             var decompressed = GZipDecompress(decoded, 4);
             if (packetSize != decompressed.Length)
                 throw new Exception($"packet decompressed size mismatch: {packetSize} != {decompressed.Length}");
-            return JToken.Parse(Encoding.UTF8.GetString(decompressed));
+            return Encoding.UTF8.GetString(decompressed);
         }
-
+        /*
         public static string EncryptRequestPacket(JToken data)
         {
             var json = data.ToString(Formatting.None);
@@ -160,7 +160,7 @@ namespace BlueArchiveAPI
             Array.Copy(compressed, 0, packet, packetSize.Length, compressed.Length);
             return Convert.ToBase64String(packet);
         }
-
+        
         public static JToken DecryptResponsePacket(byte[] packet, out Protocol proto)
         {
             var decompressed = GZipDecompress(packet);
@@ -170,13 +170,13 @@ namespace BlueArchiveAPI
             proto = result.protocol;
             return JToken.Parse(result.packet);
         }
-        
+        */
         private static readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore
         };
         
-        public static byte[] EncryptResponsePacket(object packet, Protocol proto)
+        public static byte[] EncryptResponsePacket<TResponse>(TResponse packet, Protocol proto) where TResponse : ResponsePacket
         {
             var spacket = new ServerPacket(proto, JsonConvert.SerializeObject(packet, Formatting.None, settings));
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(spacket));

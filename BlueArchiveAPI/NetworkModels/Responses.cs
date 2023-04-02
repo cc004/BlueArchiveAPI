@@ -2250,7 +2250,7 @@ public class CharacterGearTierUpResponse : ResponsePacket, IResponse<CharacterGe
 
 public class QueuingGetTicketResponse : ResponsePacket, IResponse<QueuingGetTicketRequest>
 {
-    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Queuing_GetTicket;
+    public Protocol Protocol =>  BlueArchiveAPI.NetworkModels.Protocol.Queuing_GetTicketGL;
     public string WaitingTicket;
     public string EnterTicket;
     public long TicketSequence;

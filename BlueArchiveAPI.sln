@@ -5,7 +5,12 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueArchiveAPI", "BlueArchiveAPI\BlueArchiveAPI.csproj", "{5410AF14-56D7-49AD-9526-BE01E5C2F591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolGen", "ProtocolGen\ProtocolGen.csproj", "{E4C5E47B-9C8A-4BB6-989D-DC4F89030E95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtocolGen", "ProtocolGen\ProtocolGen.csproj", "{E4C5E47B-9C8A-4BB6-989D-DC4F89030E95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{827B2806-3C18-48B7-AA84-32F6FB9D5FF4}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
